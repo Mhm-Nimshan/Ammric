@@ -1,0 +1,26 @@
+.regions {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 40%;
+    margin-left: -20%;
+    span {
+        border: 1px solid grey;
+        padding: 3px 10px;
+        flex:1 0 40px;
+        cursor: pointer;
+        transition: 0.4s;
+        text-align: center;
+    &:first-child {
+        border-radius: 10px 0 0 10px;
+    }
+    &:last-child {
+        border-radius: 0 10px 10px 0;
+    }
+
+    &.current {
+        color: white;
+        background-color: #0096d5;
+    }
+    }
+}

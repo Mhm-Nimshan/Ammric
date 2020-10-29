@@ -1,0 +1,31 @@
+.th {
+    background: #d2664c;
+    color: white;
+    .tool {
+        visibility: hidden;
+    }
+}
+
+.icon {
+    max-width: 25px;
+    cursor: pointer;
+    display: inline-block;
+    &:last-child{
+        margin-left: 20px;
+    }
+}
+
+.entry {
+    padding: 7px 10px;
+    border: 1px solid grey;
+    display: inline-block;
+    flex: 1;
+    align-self: stretch;
+}
+
+.tool {
+    display: flex;
+    flex-grow:0;
+    min-width: 100px;
+    flex-wrap: nowrap;
+}

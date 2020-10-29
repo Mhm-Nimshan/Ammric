@@ -8,11 +8,12 @@ const PathView = (WrappedComponent) => {
         console.log(pathArr)
         return (
             <div className={style.container} >
-                {pathArr.map(p => (
-                    <h4 key={p} > {p} </h4>
-                ))}
-
-                <WrappedComponent />
+                <div className={style.pathRow}>
+                    {pathArr.map((path, index) => (
+                        <span className={style.path} key={path} > {index > 0 ? (">" + path) : path} </span>
+                    ))}
+                </div>
+                <WrappedComponent  {...props} />
             </div>
         )
     })
