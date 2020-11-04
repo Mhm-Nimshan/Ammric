@@ -1,8 +1,10 @@
 import React from 'react'
+
+
 import style from "./header.module.scss"
 import { Link } from "react-router-dom"
-
 import PATH from "../../Constant"
+import logoSrc from "./AMRRIC.svg"
 
 const index = () => {
     let userIcon = "https://freesvg.org/img/abstract-user-flat-4.png"
@@ -12,7 +14,7 @@ const index = () => {
             <img
                 className={style.logo}
                 alt="logo"
-                src="https://images.unsplash.com/photo-1593642702821-c8da6771f0c6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1189&q=80"></img>
+                src={logoSrc}></img>
             <nav className={style.nav}>
                 <Link className={style.link} to={PATH.HOME}>Home</Link>
                 <Link className={style.link} to={PATH.PROGRAMS}>Programs</Link>

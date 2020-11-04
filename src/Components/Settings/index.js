@@ -1,5 +1,5 @@
 import React from 'react'
-import PathView from "../HOC/PathView"
+
 const index = () => {
     return (
         <div>
@@ -8,4 +8,4 @@ const index = () => {
     )
 }
 
-export default PathView(index)
+export default index

@@ -1,16 +1,32 @@
 import React, { memo } from 'react'
 import Row from "./Row"
+import style from "./table.module.scss"
 
+const Table = ({ data, onEdit, cols }) => {
 
-const Table = ({ data }) => {
-    let keys = data.length > 0 ? Object.keys(data[0]) : [];
-    console.log(data)
     return (
-        <div style={{ marginTop: "30px", maxHeight: "60vh" }}>
-            <Row isHeader={true} row={keys} />
-            {data.map(row => <Row key={row} row={row} />)}
+        <div style={{ marginTop: "30px", maxHeight: "70vh", overflow: "auto" }}>
+            <Header cols={cols} />
+            <div>
+                {data.map(row => <Row key={row.id} row={row} onEdit={onEdit} cols={cols} />)}
+            </div>
+
         </div>
     )
+}
+
+
+const Header = ({ cols }) => {
+    return <div className={" flex-center " + style.th}
+        style={{ width: "100%" }}
+    >
+        {cols.map((key, idx) => (
+            <span type="text" className={style.entry} key={key + idx}
+            > {key}</span>
+        ))}
+        <span className={style.entry + " " + style.tool} >
+        </span>
+    </div>
 }
 
 export default memo(Table)

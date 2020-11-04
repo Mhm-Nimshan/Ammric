@@ -7,19 +7,21 @@ import deleteSVG from "./delete.svg"
 
 
 
-const Row = ({ row, isHeader }) => {
-    let data = (row instanceof Array) ? row : Object.values(row)
+const Row = ({ row, onEdit, cols }) => {
+
     return (
-        <div className={" flex-center  " + (isHeader ? style.th : "")}
+        <div className={" flex-center "}
             style={{ width: "100%" }}
         >
-            {data && data.map((entry, idx) => (
-                <span className={style.entry} key={entry + idx}> {entry} </span>
+            {cols.map((key, idx) => (
+                <span className={style.entry} key={key + idx}
+                > {row[key]}</span>
             ))}
             <span className={style.entry + " " + style.tool} >
-                <img src={modifySVG} className={style.icon} alt="Delete" />
-                <img src={deleteSVG} className={style.icon} alt="Delete" />
 
+                <img src={modifySVG} className={style.icon} onClick={() => { onEdit(row) }} alt="Delete" />
+
+                <img src={deleteSVG} className={style.icon} alt="Delete" />
             </span>
         </div>
     )

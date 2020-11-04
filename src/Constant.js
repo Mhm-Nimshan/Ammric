@@ -7,6 +7,10 @@ const path = {
     HOME: "/"
 }
 
+const subLinks = {
+    locations: ["council", "communities"]
+}
 
+export { subLinks };
 
 export default path;
