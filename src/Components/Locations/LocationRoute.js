@@ -1,8 +1,9 @@
 import React from 'react'
 
 import { Redirect, Route, Switch } from "react-router-dom"
-import Communities from "./Communities"
 
+
+import Communities from "./Communities"
 import Location from "./index"
 import AddCouncil from "./AddCouncil"
 import AddCommunities from "./AddCommunities"

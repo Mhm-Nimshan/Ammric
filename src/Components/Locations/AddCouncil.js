@@ -11,18 +11,18 @@ const AddLocation = ({ history, location }) => {
     return (
         <form>
             <div>
-                <label className={style.tag} htmlFor="short" >Short Name*</label> <br></br>
-                <input className={style.input} type="text" id="short"
+                <label className="tag" htmlFor="short" >Short Name*</label> <br></br>
+                <input className="input" type="text" id="short"
                     onChange={(e) => { setItem({ ...item, "Short Name": e.target.value }) }}
                     required value={item["Short Name"]} /> </div>
             <div>
-                <label className={style.tag} htmlFor="name" >Name</label> <br></br>
-                <input className={style.input} type="text" id="name"
+                <label className="tag" htmlFor="name" >Name</label> <br></br>
+                <input className="input" type="text" id="name"
                     onChange={(e) => { setItem({ ...item, "Name": e.target.value }) }}
                     value={item["Name"]} /> </div>
             <div>
-                <label className={style.tag} htmlFor="state">State</label> <br></br>
-                <select className={style.select} id="state"
+                <label className="tag" htmlFor="state">State</label> <br></br>
+                <select className="input" id="state"
                     onChange={(e) => { setItem({ ...item, "State": e.target.value }) }}
                     value={item["State"]} >
                     <option value="ACT">ACT</option>
@@ -36,8 +36,8 @@ const AddLocation = ({ history, location }) => {
                 </select>
 
             </div>
-            <div> <button className="bt-add" style={{ marginRight: "30px" }} >  Add </button>
-                <span onClick={onCancel} className={style.cancel}>Cancel</span>  </div>
+            <div> <button className="bt-add"  >  Add </button>
+                <span onClick={onCancel} className="cancel">Cancel</span>  </div>
         </form>
     )
 }

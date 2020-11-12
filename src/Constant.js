@@ -8,7 +8,8 @@ const path = {
 }
 
 const subLinks = {
-    locations: ["council", "communities"]
+    locations: ["council", "communities"],
+    security: ["roles", "users"]
 }
 
 export { subLinks };

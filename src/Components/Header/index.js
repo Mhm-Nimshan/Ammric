@@ -26,9 +26,7 @@ const index = () => {
 
             <div className={style.userSession}>
                 <span> John Smith </span>
-                <img className={style.userIcon} src={userIcon} alt="user pic"
-
-                />
+                <img className={style.userIcon} src={userIcon} alt="user pic" />
             </div>
         </div>
     )

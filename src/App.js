@@ -1,5 +1,5 @@
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom"
-
+import 'react-checkbox-tree/lib/react-checkbox-tree.css';
 
 
 import './App.css';
@@ -10,7 +10,7 @@ import LocationRoute from "./Components/Locations/LocationRoute"
 import Programs from "./Components/Programs"
 import Parameters from "./Components/Parameters"
 import Settings from "./Components/Settings"
-import Security from "./Components/Security"
+import SecurityRoute from "./Components/Security/SecurityRoute"
 
 // import path constant
 import PATH from "./Constant"
@@ -26,14 +26,12 @@ function App() {
         <Header />
         <div className="mainContainer">
           <SideBar />
-
-
           <Switch>
             <Route path={PATH.LOCATIONS} component={PathView(LocationRoute)} />
             <Route path={PATH.PROGRAMS} component={PathView(Programs)} />
             <Route path={PATH.PARAMETERS} component={PathView(Parameters)} />
             <Route path={PATH.SETTINGS} component={PathView(Settings)} />
-            <Route path={PATH.SECURITY} component={PathView(Security)} />
+            <Route path={PATH.SECURITY} component={PathView(SecurityRoute)} />
           </Switch>
 
         </div>

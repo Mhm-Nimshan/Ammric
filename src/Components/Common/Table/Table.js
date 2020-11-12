@@ -2,13 +2,14 @@ import React, { memo } from 'react'
 import Row from "./Row"
 import style from "./table.module.scss"
 
-const Table = ({ data, onEdit, cols }) => {
+const Table = ({ data, onEdit, cols, children, editable, deletable }) => {
 
     return (
         <div style={{ marginTop: "30px", maxHeight: "70vh", overflow: "auto" }}>
             <Header cols={cols} />
             <div>
-                {data.map(row => <Row key={row.id} row={row} onEdit={onEdit} cols={cols} />)}
+                {children}
+                {data && data.map(row => <Row key={row.id} row={row} onEdit={onEdit} cols={cols} editable={editable} deletable={deletable} />)}
             </div>
 
         </div>

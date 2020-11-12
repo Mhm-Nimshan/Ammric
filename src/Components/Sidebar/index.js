@@ -3,7 +3,7 @@ import { withRouter, Link } from "react-router-dom"
 import style from "./sidebar.module.scss"
 import { subLinks } from "../../Constant"
 
-const index = ({ history, location }) => {
+const index = ({ location }) => {
     let pathArr = location.pathname.split("/")
     let keyPath = pathArr.length > 1 ? pathArr[1] : ""
     let sublink = subLinks[keyPath]

@@ -7,7 +7,11 @@ import deleteSVG from "./delete.svg"
 
 
 
-const Row = ({ row, onEdit, cols }) => {
+const Row = ({ row, onEdit, cols, editable = true, deltetable = true }) => {
+
+    function booleanIcon(isTrue) {
+        return isTrue ? <i className="fas fa-check" /> : <i className="fas fa-times" />
+    }
 
     return (
         <div className={" flex-center "}
@@ -15,14 +19,15 @@ const Row = ({ row, onEdit, cols }) => {
         >
             {cols.map((key, idx) => (
                 <span className={style.entry} key={key + idx}
-                > {row[key]}</span>
+                > {typeof row[key] === "boolean" ? booleanIcon(row[key]) : row[key]}</span>
             ))}
             <span className={style.entry + " " + style.tool} >
 
-                <img src={modifySVG} className={style.icon} onClick={() => { onEdit(row) }} alt="Delete" />
+                {editable ? <img src={modifySVG} className={style.icon} onClick={() => { onEdit(row) }} alt="Edit" /> : <span />}
 
-                <img src={deleteSVG} className={style.icon} alt="Delete" />
+                {deltetable ? <img src={deleteSVG} className={style.icon} alt="Delete" /> : <span />}
             </span>
+            {/* last two icons */}
         </div>
     )
 }
