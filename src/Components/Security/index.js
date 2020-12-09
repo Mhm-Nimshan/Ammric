@@ -1,19 +1,38 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 import Table from "../Common/Table/Table"
+import { onDelete, onEdit } from "../Common/Table/APIUtil"
 
+
+
+const editURl = "/security/roles/edit";
+const deleteURL = "/api/roles"
 const Roles = ({ history }) => {
+    const [Roles, setRoles] = useState([])
+    let cols = ["RoleCode", "RoleName", "Description", "System", "UserCount"]
 
-    let cols = ["Role Code", "Name", "Description", "System", "Users"]
 
-    function onEdit() {
-        let url = "/security/roles/edit"
-        return function (data) {
-            history.push({ pathname: url, state: { ...data } })
+    const fetchRoles = async () => {
+        try {
+            let res = await fetch("/api/roles/all")
+            res = await res.json();
+            if (res.error) {
+                console.log(res.error)
+            } else { setRoles(res.data) }
+
+        } catch (error) {
+            console.log(error)
         }
+
     }
 
+    useEffect(() => {
+        fetchRoles()
+    }, [])
 
+
+    const deleteItem = onDelete(deleteURL, fetchRoles)
+    const editItem = onEdit(history, editURl)
 
     return (
         <div>
@@ -22,14 +41,11 @@ const Roles = ({ history }) => {
                 <span > No deleted  </span>
 
             </div>
-            <Table onEdit={onEdit()} cols={cols} data={data} />
+            <Table onEdit={editItem} cols={cols} data={Roles} onDelete={deleteItem} />
         </div>
     )
 }
 
 
-const data = [{ "Role Code": "Admin", "Name": "Administration", "Description": "System settings, user groups, users and permissions", "System": true, "Users": 1 },
-{ "Role Code": "amw", "Name": "Animal Management Worker", "Description": "Records some treatments, animal welfare data, registrations, etc.", "System": "", "Users": 0 }
-]
 
 export default Roles

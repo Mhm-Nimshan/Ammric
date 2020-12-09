@@ -1,29 +1,53 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import style from "./security.module.scss"
 import Table from "../Common/Table/Table"
+import { onDelete, onEdit } from "../Common/Table/APIUtil.js"
+
+
+const editURl = "/security/users/edit";
+const deleteURL = "/api/users"
 
 const Users = ({ history }) => {
+    const [users, setUsers] = useState([])
     const [hideAudit, setHideAudit] = useState(true)
-    const [filters, setFilters] = useState({ roles: null, enabled: "true" })
+    const [filters, setFilters] = useState({ roles: "", enabled: "true" })
 
-    let cols = ["Username", "Name", "Email", "Roles", "isEnabled"]
-    let auditCols = ["Username", "Name", "Last Mobile Log in", "Last Mobile sync", "Last Portal log in"]
-    function onEdit() {
-        let url = "/security/users/edit"
-        return function (data) {
-            history.push({ pathname: url, state: { ...data } })
+    const fetchUsers = async () => {
+        try {
+            let res = await fetch("/api/users/all")
+            res = await res.json();
+            if (res.error) {
+                console.log(res.error)
+            } else {
+                setUsers(res.data)
+            }
+
+        } catch (error) {
+            console.log(error)
         }
+
     }
 
+    useEffect(() => {
+        fetchUsers()
+    }, [])
 
-    function displayData() {
-        let temp;
+    let cols = ["Username", "Name", "Email", "RoleCodes", "Active"]
+    let auditCols = ["Username", "Name", "Last Mobile Log in", "Last Mobile sync", "Last Portal log in"]
+
+    const editItem = onEdit(history, editURl)
+    const deleteItem = onDelete(deleteURL, fetchUsers)
+
+
+    function displayData(data) {
+        console.log(data)
         let enabled = filters.enabled === "true"
-        temp = data.filter((item) => item["isEnabled"] === enabled)
+        let temp = data.filter((item) => item["Active"] === enabled)
+        console.log(temp)
         if (filters.roles !== null) {
-            temp = temp.filter((item) => (item["Roles"].includes(filters.roles)))
+            temp = temp.filter((item) => (item["RoleCodes"].includes(filters.roles)))
         }
-
+        console.log(temp)
         return temp;
     }
 
@@ -35,7 +59,7 @@ const Users = ({ history }) => {
                 <span className={style.plainBt} onClick={() => setHideAudit(!hideAudit)}> {hideAudit ? "View" : "Hide"} Audit Data</span>
                 <span>
                     <select value={filters.roles} onChange={(e) => setFilters((prev) => ({ ...prev, roles: e.target.value }))}  >
-                        <option value={null} > {null} </option>
+                        <option value={""} > {null} </option>
                         <option value="admin" > admin</option>
                         <option value="vet"> vet</option>
                         <option value="amrric"> amrric</option>
@@ -54,21 +78,11 @@ const Users = ({ history }) => {
                 <span > No deleted  </span>
 
             </div>
-            <Table onEdit={onEdit()} cols={hideAudit ? cols : auditCols} data={displayData()} />
+            <Table onEdit={editItem} onDelete={deleteItem} cols={hideAudit ? cols : auditCols} data={displayData(users)} />
         </div>
     )
 
 }
-
-const data = [{
-    "Username": "jack", "Name": "abc", "Email": "eircliamhjx@gmaim.com", "Roles": "admin,amm",
-    "isEnabled": true, "Last Mobile Log in": "12 Jun 2020, 9:25 am", "Last Mobile sync": "12 Jun 2020, 9:25 am", "Last Portal log in": "12 Jun 2020, 9:25 am"
-},
-{ "Username": "liu", "Name": "ddd", "Email": "ezxcliamhjx@gmaim.com", "Roles": "amm", "isEnabled": true, "Last Mobile Log in": "12 Jun 2020, 9:25 am", "Last Mobile sync": "12 Jun 2020, 9:25 am", "Last Portal log in": "12 Jun 2020, 9:25 am" },
-{ "Username": "jack", "Name": "abc", "Email": "eircliamhjx@gmaim.com", "Roles": "admin,vet", "isEnabled": true, "Last Mobile Log in": "12 Jun 2020, 9:25 am", "Last Mobile sync": "12 Jun 2020, 9:25 am", "Last Portal log in": "12 Jun 2020, 9:25 am" },
-{ "Username": "jack", "Name": "abc", "Email": "eircliamhjx@gmaim.com", "Roles": "admin,amm", "isEnabled": true, "Last Mobile Log in": "12 Jun 2020, 9:25 am", "Last Mobile sync": "12 Jun 2020, 9:25 am", "Last Portal log in": "12 Jun 2020, 9:25 am" },
-{ "Username": "jack", "Name": "abc", "Email": "eircliamhjx@gmaim.com", "Roles": "admin,amm", "isEnabled": false, "Last Mobile Log in": "12 Jun 2020, 9:25 am", "Last Mobile sync": "12 Jun 2020, 9:25 am", "Last Portal log in": "12 Jun 2020, 9:25 am" },
-]
 
 
 

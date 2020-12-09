@@ -1,6 +1,23 @@
 import React, { useState } from 'react'
 
-import style from "./location.module.scss"
+import { fecthApi } from "../Common/Table/APIUtil"
+
+
+const endURL = "/api/council"
+
+const updateCommunity = (data, callback) => {
+    fecthApi(endURL, "PUT", data)
+        .then((res) => res.json())
+        .then((res) => res.error && callback(res.error))
+}
+
+const addCommunity = (data, callback) => {
+    fecthApi(endURL, "POST", data)
+        .then((res) => res.json())
+        .then((res) => res.error && callback(res.error))
+}
+
+
 
 const AddLocation = ({ history, location }) => {
     const [item, setItem] = useState({ ...location.state })
@@ -8,13 +25,22 @@ const AddLocation = ({ history, location }) => {
         history.goBack()
         return false
     }
+
+    const onError = (err) => {
+        console.log(err)
+    }
+
+
+
+    const operation = () => { location.state ? updateCommunity(item, onError) : addCommunity(item, onError) }
+
     return (
         <form>
             <div>
                 <label className="tag" htmlFor="short" >Short Name*</label> <br></br>
                 <input className="input" type="text" id="short"
-                    onChange={(e) => { setItem({ ...item, "Short Name": e.target.value }) }}
-                    required value={item["Short Name"]} /> </div>
+                    onChange={(e) => { setItem({ ...item, "ShortName": e.target.value }) }}
+                    required value={item["ShortName"]} /> </div>
             <div>
                 <label className="tag" htmlFor="name" >Name</label> <br></br>
                 <input className="input" type="text" id="name"
@@ -36,7 +62,7 @@ const AddLocation = ({ history, location }) => {
                 </select>
 
             </div>
-            <div> <button className="bt-add"  >  Add </button>
+            <div> <button className="bt-add" onClick={operation}  >  Add </button>
                 <span onClick={onCancel} className="cancel">Cancel</span>  </div>
         </form>
     )

@@ -7,7 +7,7 @@ import deleteSVG from "./delete.svg"
 
 
 
-const Row = ({ row, onEdit, cols, editable = true, deltetable = true }) => {
+const Row = ({ row, onEdit, cols, onDelete, editable = true, deltetable = true }) => {
 
     function booleanIcon(isTrue) {
         return isTrue ? <i className="fas fa-check" /> : <i className="fas fa-times" />
@@ -25,7 +25,7 @@ const Row = ({ row, onEdit, cols, editable = true, deltetable = true }) => {
 
                 {editable ? <img src={modifySVG} className={style.icon} onClick={() => { onEdit(row) }} alt="Edit" /> : <span />}
 
-                {deltetable ? <img src={deleteSVG} className={style.icon} alt="Delete" /> : <span />}
+                {deltetable ? <img src={deleteSVG} className={style.icon} alt="Delete" onClick={() => { onDelete(row) }} /> : <span />}
             </span>
             {/* last two icons */}
         </div>

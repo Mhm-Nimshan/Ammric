@@ -50,6 +50,10 @@
   height: 35px;
 }
 
+.input {
+  padding: 10px;
+}
+
 .tag {
   color :grey
 }

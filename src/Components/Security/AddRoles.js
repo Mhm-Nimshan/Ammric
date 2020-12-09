@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import CheckboxTree from 'react-checkbox-tree';
+import { uuid } from "uuidv4"
+
 
 
 import style from "./security.module.scss"
-
-
+import AddOption from "./AddOption"
+import { fecthApi } from "../Common/Table/APIUtil"
 
 
 const nodes = [{
@@ -36,34 +38,62 @@ const nodes = [{
 
 
 
+const endURL = "/api/roles"
+
+const updateRoles = (data, callback) => {
+    fecthApi(endURL, "PUT", data)
+        .then((res) => res.json())
+        .then((res) => res.error && callback(res.error))
+}
+
+const addRoles = (data, callback) => {
+    fecthApi(endURL, "POST", data)
+        .then((res) => res.json())
+        .then((res) => res.error && callback(res.error))
+}
+
 
 const AddRoles = ({ history, location }) => {
 
-    const [role, setRole] = useState({ ...location.state })
+    const [role, setRole] = useState({ RoleCode: "", RoleName: "", Description: "", ...location.state })
     const [permission, setPermission] = useState({ checked: [""], expanded: [] })
-
+    const [users, setUsers] = useState([])
 
 
     const onChange = (e) => {
         const target = e.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
         setRole((prevRole) => ({ ...prevRole, [target.id]: value }))
-        console.log(role)
     }
 
+    const onError = (err) => {
+        console.log(err)
+    }
+
+    const addUsers = (e) => {
+        e.preventDefault();
+        setUsers([...users, { key: uuid(), user: "" }])
+    }
+
+    const deleteUsers = (toDelete) => {
+
+        setUsers(users.filter(user => user !== toDelete))
+    }
+
+    const operation = () => { location.state ? updateRoles(role, onError) : addRoles(role, onError) }
 
     return (
         <div>
             <div className={"flex-between " + style.container} >
 
-                <form className={style.form} >
+                <div className={style.form} >
                     <div>
                         <label className="tag" htmlFor="Role Code" >Role Code*</label> <br></br>
-                        <input className="input" type="text" id="Role Code" required value={role["Role Code"]} onChange={onChange} />
+                        <input className="input" type="text" id="RoleCode" required value={role["RoleCode"]} disabled={!!location.state} onChange={onChange} />
                     </div>
                     <div>
-                        <label className="tag" htmlFor="Name" >Name</label> <br></br>
-                        <input className="input" type="text" id="Name" value={role["Name"]} onChange={onChange} />
+                        <label className="tag" htmlFor="RoleName" >Name</label> <br></br>
+                        <input className="input" type="text" id="RoleName" value={role["RoleName"]} onChange={onChange} />
                     </div>
                     <div>
                         <label className="tag" htmlFor="Description" >Description</label> <br></br>
@@ -71,12 +101,13 @@ const AddRoles = ({ history, location }) => {
                     </div>
                     <div>
                         <p className="tag"> <span>Users</span>  </p>
-                        <span className={style.green_add} > add users </span>
+                        {users.map(user => <AddOption options={options} key={user.key} onDelete={() => deleteUsers(user)} />)}
+                        <span className={style.green_add} onClick={addUsers} > add users </span>
 
                     </div>
 
 
-                </form>
+                </div>
                 <div className={style.permissionContainer}  >
                     <p  ><span className="tag">Permission</span> </p>
                     <div className={style.permission} >
@@ -98,10 +129,12 @@ const AddRoles = ({ history, location }) => {
 
 
             </div>
-            <div> <button className="bt-add" >  Add </button>
-                <span className="cancel" onClick={() => history.goBack()}>Cancel</span>  </div>
+            <button className="bt-add" onClick={operation} >  Add </button>
+            <span className="cancel" onClick={() => history.goBack()}>Cancel</span>
         </div>
     )
 }
+
+const options = ["", "jack", "mike", "john", "eric"]
 
 export default AddRoles
