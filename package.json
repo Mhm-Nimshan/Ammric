@@ -41,5 +41,5 @@
   "devDependencies": {
     "node-sass": "^4.14.1"
   },
-  "proxy": "http://amrricaudevelop.azurewebsites.net"
+  "proxy": "https://amrricportalbackenddev.azurewebsites.net"
 }
