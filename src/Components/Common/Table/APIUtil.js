@@ -26,7 +26,7 @@ function onDelete(url, callback) {
 }
 
 
-const fecthApi = (url, method, data) => {
+const fecthApi = (url, method = "GET", data = {}) => {
 
     return fetch(url, {
         method: method,
@@ -40,7 +40,13 @@ const fecthApi = (url, method, data) => {
             Active: 1,
             ...data
         })
-    })
+    }).then(res => res.json())
+        .then(data => {
+            if (data.error) {
+                throw new Error(data.error)
+            }
+            return data
+        })
 }
 
 

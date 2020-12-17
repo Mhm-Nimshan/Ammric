@@ -11,6 +11,7 @@ const Users = ({ history }) => {
     const [users, setUsers] = useState([])
     const [hideAudit, setHideAudit] = useState(true)
     const [filters, setFilters] = useState({ roles: "", enabled: "true" })
+    const [roles, setRoles] = useState([])
 
     const fetchUsers = async () => {
         try {
@@ -20,6 +21,8 @@ const Users = ({ history }) => {
                 console.log(res.error)
             } else {
                 setUsers(res.data)
+                let temp = res.data.map(item => item["RoleCodes"].split(",")).reduce((item, acc) => [...new Set([...acc, ...item])], [])
+                setRoles(["", ...temp])
             }
 
         } catch (error) {
@@ -39,17 +42,16 @@ const Users = ({ history }) => {
     const deleteItem = onDelete(deleteURL, fetchUsers)
 
 
-    function displayData(data) {
-        console.log(data)
+    const displayData = (data) => {
         let enabled = filters.enabled === "true"
         let temp = data.filter((item) => item["Active"] === enabled)
-        console.log(temp)
-        if (filters.roles !== null) {
-            temp = temp.filter((item) => (item["RoleCodes"].includes(filters.roles)))
+        if (filters.roles) {
+            temp = temp.filter((item) => (item["RoleCodes"]?.includes(filters.roles)))
         }
-        console.log(temp)
         return temp;
     }
+
+
 
 
     return (
@@ -59,10 +61,7 @@ const Users = ({ history }) => {
                 <span className={style.plainBt} onClick={() => setHideAudit(!hideAudit)}> {hideAudit ? "View" : "Hide"} Audit Data</span>
                 <span>
                     <select value={filters.roles} onChange={(e) => setFilters((prev) => ({ ...prev, roles: e.target.value }))}  >
-                        <option value={""} > {null} </option>
-                        <option value="admin" > admin</option>
-                        <option value="vet"> vet</option>
-                        <option value="amrric"> amrric</option>
+                        {roles.map(item => <option key={item} value={item}>  {item} </option>)}
                     </select>
                     <select
                         value={filters.enabled}
@@ -78,7 +77,7 @@ const Users = ({ history }) => {
                 <span > No deleted  </span>
 
             </div>
-            <Table onEdit={editItem} onDelete={deleteItem} cols={hideAudit ? cols : auditCols} data={displayData(users)} />
+            <Table onEdit={editItem} onDelete={deleteItem} cols={hideAudit ? cols : auditCols} data={displayData(users)} pk={"Username"} />
         </div>
     )
 
