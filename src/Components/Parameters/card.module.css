@@ -1,0 +1,41 @@
+.cardContainer {
+    border: 1px solid grey;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    margin: 50px;
+    flex-direction: column;
+    justify-content: center;
+    width: 20vw;
+    text-align: center;
+    transition: 0.3s;
+    cursor: pointer;
+    min-width: 200px;
+    user-select: none;
+    height: 10vw;
+    min-height: 150px;
+    padding: 20px 5px 30px;
+}
+
+.title {
+    margin-bottom: 20px;
+    color: #007283;
+    font-size: 20px;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    flex-wrap:wrap;
+    justify-content: flex-start;
+}
+
+.cardContainer:hover .title{
+    color:gold
+
+}
+
+.cardContainer:hover {
+    box-shadow: 4px 4px 2px 5px #007283;
+    transform: translate(-19px,-19px);
+}
