@@ -5,22 +5,9 @@ import { fecthApi } from "../Common/Table/APIUtil"
 
 const endURL = "/api/council"
 
-const updateCommunity = (data, callback) => {
-    fecthApi(endURL, "PUT", data)
-        .then((res) => res.json())
-        .then((res) => res.error && callback(res.error))
-}
-
-const addCommunity = (data, callback) => {
-    fecthApi(endURL, "POST", data)
-        .then((res) => res.json())
-        .then((res) => res.error && callback(res.error))
-}
-
-
 
 const AddLocation = ({ history, location }) => {
-    const [item, setItem] = useState({ ...location.state })
+    const [item, setItem] = useState({ State: "ACT", ...location.state })
     const onCancel = (e) => {
         history.goBack()
         return false
@@ -32,7 +19,15 @@ const AddLocation = ({ history, location }) => {
 
 
 
-    const operation = () => { location.state ? updateCommunity(item, onError) : addCommunity(item, onError) }
+    const operation = () => {
+        let method = "POST"
+        if (location.state) {
+            method = "PUT"
+        }
+        fecthApi(endURL, method, item)
+            .then(onCancel)
+            .catch((err) => onError(err))
+    }
 
     return (
         <form>

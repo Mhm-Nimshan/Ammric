@@ -14,19 +14,19 @@ const nodes = [{
     label: 'Mobile Application',
     children: [
         {
-            value: '(screen) All Councils', label: '(screen) All Councils',
-            children: [{ value: "(button) Add Locations to Council", label: "(button) Add Locations to Council" }]
+            value: 'Councils', label: '(screen) All Councils',
+            children: [{ value: "Council.Add", label: "(button) Add Locations to Council" }]
         },
         {
-            value: '(screen) All Location', label: '(screen) All Location', children:
+            value: 'Location', label: '(screen) All Location', children:
                 [
-                    { value: "(button) Floating Add for Location", label: "(button) Floating Add for Location" },
-                    { value: "(tab) Houses In a Location", label: "(tab) Houses In a Location" },
-                    { value: "(tab) Stray animals in a Location", label: "(tab) Stray animals in a Location" },
-                    { value: "(tab) Comments for a location", label: "(tab) Comments for a location" },
+                    { value: "Location.Add", label: "(button) Floating Add for Location" },
+                    { value: "Location.Add.House", label: "(tab) Houses In a Location" },
+                    { value: "Location.Add.Stray", label: "(tab) Stray animals in a Location" },
+                    { value: "Location.Comments", label: "(tab) Comments for a location" },
                 ]
         },
-        { value: '(screen) House', label: '(screen) House' },
+        { value: 'Location.House', label: '(screen) House' },
         { value: '(screen) Animal', label: '(screen) Animal' },
         { value: '(screen) Settings', label: '(screen) Settings' },
     ],
@@ -41,22 +41,21 @@ const nodes = [{
 const endURL = "/api/roles"
 
 const updateRoles = (data, callback) => {
-    fecthApi(endURL, "PUT", data)
-        .then((res) => res.json())
-        .then((res) => res.error && callback(res.error))
+    fecthApi(endURL, "PUT", data).then((res) => res.json())
+        .catch((err) => callback(err))
+
 }
 
 const addRoles = (data, callback) => {
     fecthApi(endURL, "POST", data)
-        .then((res) => res.json())
-        .then((res) => res.error && callback(res.error))
+        .catch((err) => callback(err))
 }
 
 
 const AddRoles = ({ history, location }) => {
 
     const [role, setRole] = useState({ RoleCode: "", RoleName: "", Description: "", ...location.state })
-    const [permission, setPermission] = useState({ checked: [""], expanded: [] })
+    const [permission, setPermission] = useState({ checked: ["Council.Add"], expanded: [] })
     const [users, setUsers] = useState([])
 
 
@@ -121,13 +120,8 @@ const AddRoles = ({ history, location }) => {
                             nativeCheckboxes={true}
                             showNodeIcon={false}
                         />
-
                     </div>
-
-
                 </div>
-
-
             </div>
             <button className="bt-add" onClick={operation} >  Add </button>
             <span className="cancel" onClick={() => history.goBack()}>Cancel</span>

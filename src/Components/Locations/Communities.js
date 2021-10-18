@@ -10,6 +10,8 @@ const editURl = "/locations/communities/edit"
 const Communities = ({ history }) => {
 
     const [communities, setCommunities] = useState([])
+    const [councils, setCouncils] = useState([])
+    const [filter, setFilter] = useState("")
 
     const cols = ["Community", "Outstation", "LocationType"]
 
@@ -19,13 +21,17 @@ const Communities = ({ history }) => {
             res = await res.json();
             if (res.error) {
                 console.log(res.error)
-            } else { setCommunities(res.data) }
-
+            } else {
+                setCommunities(res.data)
+                let councilsTemp = ["", ...new Set(res.data.map(item => item.CouncilName))]
+                setCouncils(councilsTemp)
+            }
         } catch (error) {
             console.log(error)
         }
-
     }
+
+
 
     useEffect(() => {
         fetchCommunity()
@@ -33,6 +39,13 @@ const Communities = ({ history }) => {
 
     const onClick = () => {
         history.push("/locations/communities/add")
+    }
+
+    const displayData = () => {
+        if (filter !== "") {
+            return communities.filter(item => item.CouncilName === filter)
+        }
+        return communities
     }
 
 
@@ -45,16 +58,13 @@ const Communities = ({ history }) => {
                 <button className="bt-add" onClick={onClick} > Add</button>
                 <span>
                     <label htmlFor="councilSelet" >Council: </label>
-                    <select id="councilSelet" style={{ margin: 0 }}>
-                        <option value="1">1</option>
-                        <option value="1">2</option>
-                        <option value="1">3</option>
-                        <option value="1">4</option>
+                    <select id="councilSelet" style={{ margin: 0 }} value={filter} onChange={(e) => setFilter(e.target.value)} >
+                        {councils.map(item => <option key={item} value={item}> {item} </option>)}
                     </select>
                 </span>
                 <span> No deleted</span>
             </div>
-            <Table data={communities} onEdit={editItem} cols={cols} onDelete={deleteItem} />
+            <Table data={displayData()} onEdit={editItem} pk={"LocationId"} cols={cols} onDelete={deleteItem} />
         </div>
     )
 }

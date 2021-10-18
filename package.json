@@ -14,7 +14,7 @@
     "uuidv4": "^6.2.5",
     "web-vitals": "^0.2.4"
   },
-   "engines": {
+  "engines": {
     "node": "^10.14.2"
   },
   "scripts": {

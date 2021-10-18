@@ -41,7 +41,7 @@ const Roles = ({ history }) => {
                 <span > No deleted  </span>
 
             </div>
-            <Table onEdit={editItem} cols={cols} data={Roles} onDelete={deleteItem} />
+            <Table onEdit={editItem} cols={cols} data={Roles} onDelete={deleteItem} pk={"RoleCode"} />
         </div>
     )
 }

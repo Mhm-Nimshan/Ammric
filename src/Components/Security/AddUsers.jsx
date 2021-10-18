@@ -1,32 +1,26 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { uuid } from 'uuidv4';
 import style from "./security.module.scss"
 import AddOption from "./AddOption"
-import {fecthApi} from "../Common/Table/APIUtil"
+import { fecthApi } from "../Common/Table/APIUtil"
 
 
 
 const endURL = "/api/users"
 
-const updateUser = (data, callback) => {
-    fecthApi(endURL, "PUT", data)
-        .then((res) => res.json())
-        .then((res) => res.error && callback(res.error))
-}
-
-const addUser = (data, callback) => {
-    fecthApi(endURL, "POST", data)
-        .then((res) => res.json())
-        .then((res) => res.error && callback(res.error))
-}
 
 
 const AddUsers = ({ history, location }) => {
     const [user, setUser] = useState({ ...location.state })
-    const [roles, setRoles] = useState([])
+    const [userRoles, setRoles] = useState([])
+    const [currentRoles, setCurrentRoles] = useState([])
+
+    useEffect(() => {
+        getRoles()
+    }, [])
 
     const onAddRole = () => {
-        setRoles([...roles, { key: uuid(), role: "" }])
+        setRoles([...userRoles, { key: uuid(), role: "" }])
     }
 
     const onChange = (e) => {
@@ -37,9 +31,32 @@ const AddUsers = ({ history, location }) => {
 
 
     const onOptionChange = (e, key) => {
-        let tempRoles = [...roles].map(role => role.key === key ? { ...role, role: e.target.value } : role)
+        let tempRoles = [...userRoles].map(role => role.key === key ? { ...role, role: e.target.value } : role)
         setRoles(tempRoles)
     }
+
+    const onSubmit = (e, callback) => {
+        e.preventDefault()
+        let method = "POST"
+        if (location.state) {
+            method = "PUT"
+        }
+        fecthApi(endURL, method, user)
+            .catch((err) => callback(err))
+    }
+
+    const onError = (err) => {
+        console.log(err)
+    }
+
+    const getRoles = () => {
+        fetch("/api/roles/all")
+            .then(res => res.json())
+            .then(data => setCurrentRoles(data.data.map(item => item["RoleCode"])))
+    }
+
+
+
     return (
         <form>
             <div className={"flex-between " + style.container} >
@@ -58,30 +75,31 @@ const AddUsers = ({ history, location }) => {
                         <input className="input" type="text" id="Email" value={user["Email"]} onChange={onChange} />
                     </div>
                     <div>
-                        <label className="tag" htmlFor="isEnabled" > Is Enabled </label>
-                        <input type="checkbox" id="isEnabled" checked={user["isEnabled"]} onChange={onChange} />
+                        <label className="tag" htmlFor="Active" > Is Enabled </label>
+                        <input type="checkbox" id="Active" checked={user["Active"]} onChange={onChange} />
                     </div>
                     <div>
                         <label className="tag" htmlFor="Password"  >Password *</label> <br></br>
-                        <input className="input" type="text" id="Password" onChange={onChange} required />
+                        <input className="input" type="text" id="Password" onChange={onChange} required value={user["Password"]} />
                     </div>
                     <div>
-                        <label className="tag" htmlFor="expire" > Expire Password</label>  <input type="checkbox" />
+                        <label className="tag" htmlFor="expire" > Expire Password</label>
+                        <input type="checkbox" id="ExpirePassword" checked={user["ExpirePassword"]} onChange={onChange} />
 
                     </div>
                 </div>
                 <div className={style.user_role} >
                     <p className="tag" style={{ marginBottom: "20px" }}> User Roles</p>
-                    {roles && roles.map(role => <AddOption key={role.key} options={options} value={role.role} onChange={(e) => onOptionChange(e, role.key)} onDelete={() => setRoles(roles.filter(item => item !== role))} />)}
+                    {userRoles && userRoles.map(role => <AddOption key={role.key} options={currentRoles} value={role.role} onChange={(e) => onOptionChange(e, role.key)} onDelete={() => setRoles(userRoles.filter(item => item !== role))} />)}
                     <span className={style.green_add} onClick={onAddRole} >  Add User Role</span>
                 </div>
             </div>
-            <button className="bt-add"> Add</button>   <span className="cancel" onClick={() => history.goBack()} >Cancel</span>
+            <button className="bt-add" onClick={(e) => { onSubmit(e, onError) }} > Add</button>   <span className="cancel" onClick={() => history.goBack()} >Cancel</span>
 
         </form>
     )
 }
-const options = ["", "Administrator", "Animal Management Worker", "AMRRIC", "Veterinary"]
+
 
 
 

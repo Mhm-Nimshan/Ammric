@@ -78,6 +78,7 @@ const Council = ({ history, location }) => {
                 cols={cols}
                 onEdit={editItem}
                 onDelete={deleteItem}
+                pk={"CouncilId"}
             />
         </div>
     )
