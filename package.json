@@ -12,7 +12,9 @@
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.0",
     "uuidv4": "^6.2.5",
-    "web-vitals": "^0.2.4"
+    "web-vitals": "^0.2.4",
+    "jest": "^27.3.1",
+    "ts-jest": "^27.0.5"
   },
   "engines": {
     "node": "^12.22.6"
@@ -20,7 +22,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "jest --config ./jest.config.js",
+    "react-test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -42,7 +45,9 @@
     ]
   },
   "devDependencies": {
-    "node-sass": "^4.14.1"
+    "node-sass": "^4.14.1",
+    "jest": "^27.3.1",
+    "ts-jest": "^27.0.5"
   },
   "proxy": "https://amrricdevelopportalbackend.azurewebsites.net"
 }
