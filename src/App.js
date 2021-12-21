@@ -11,11 +11,9 @@ import Programs from "./Components/Programs"
 import Parameters from "./Components/Parameters"
 import Settings from "./Components/Settings"
 import SecurityRoute from "./Components/Security/SecurityRoute"
-<<<<<<< Updated upstream
-=======
 import Home from "./Components/Home"
 import Admin from "./Components/Admin";
->>>>>>> Stashed changes
+
 
 // import path constant
 import PATH from "./Constant"
@@ -39,10 +37,6 @@ function App() {
             <Route path={PATH.PARAMETERS} component={PathView(Parameters)} />
             <Route path={PATH.SETTINGS} component={PathView(Settings)} />
             <Route path={PATH.SECURITY} component={PathView(SecurityRoute)} />
-<<<<<<< Updated upstream
-=======
-            
->>>>>>> Stashed changes
           </Switch>
 
         </div>
