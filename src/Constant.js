@@ -1,5 +1,4 @@
 const path = {
-    ADMIN: "/admin",
     PROGRAMS: "/programs",
     LOCATIONS: "/locations",
     SECURITY: "/security",
