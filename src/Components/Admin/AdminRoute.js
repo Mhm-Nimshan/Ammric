@@ -5,8 +5,8 @@ import { Redirect, Route, Switch } from "react-router-dom"
 const AdminRoute = () => {
     return (
         <Switch>
-            <Route exact path="" component={} />
-            <Route exact path="" component={} />
+            <Route exact path="/locations/council" component={Council} />
+            <Route exact path="/locations/communities" component={Communities} />
             <Route exact path="" component={} />
             <Route exact path="" component={} />
             <Route exact path="" component={} />
@@ -15,3 +15,5 @@ const AdminRoute = () => {
         </Switch>
     )
 }
+
+export default AdminRoute

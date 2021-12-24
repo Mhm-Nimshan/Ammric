@@ -10,7 +10,8 @@ const path = {
 
 const subLinks = {
     locations: ["council", "communities"],
-    security: ["roles", "users"]
+    security: ["roles", "users"],
+    admin: ["Locations" , "Animal details" , "Animal conditions" , "Animal behaviours" , "Animal body parts" , "Clinical Notes" ,"Security", "Settings" , "Programs"]
 }
 
 export { subLinks };
