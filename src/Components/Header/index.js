@@ -2,11 +2,12 @@ import React from 'react'
 
 
 import style from "./header.module.scss"
-import { Link } from "react-router-dom"
+import { Link, Redirect } from "react-router-dom"
 import PATH from "../../Constant"
 import logoSrc from "./AMRRIC.svg"
+import path from '../../Constant'
 
-const index = () => {
+const index = (history) => {
     let userIcon = "https://freesvg.org/img/abstract-user-flat-4.png"
 
     return (
@@ -22,12 +23,14 @@ const index = () => {
                 <Link className={style.link} to={PATH.SECURITY}>Security</Link>
                 <Link className={style.link} to={PATH.PARAMETERS}>Parameters</Link>
                 <Link className={style.link} to={PATH.SETTINGS}>Settings</Link>
+                <Link className={style.link} to={PATH.ADMIN}>Admin</Link>
             </nav>
 
-            <div className={style.userSession}>
+            <button className={style.userSession} type="button" onClick={PATH.USERPROFILE}>
+                
                 <span> John Smith </span>
                 <img className={style.userIcon} src={userIcon} alt="user pic" />
-            </div>
+            </button>
         </div>
     )
 }

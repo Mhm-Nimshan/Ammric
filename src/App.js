@@ -13,10 +13,12 @@ import Settings from "./Components/Settings"
 import SecurityRoute from "./Components/Security/SecurityRoute"
 import Home from "./Components/Home"
 import Admin from "./Components/Admin";
+import Userprofile from "./Components/Userprofile"
 
 
 // import path constant
 import PATH from "./Constant"
+
 
 
 
@@ -28,15 +30,17 @@ function App() {
       <Router>
         <Header />
         <div className="mainContainer">
-          <SideBar />
+          <SideBar/>
           <Switch>
             <Route path={PATH.HOME} component={PathView(Home)} />
-            <Route path={PATH.ADMIN} component={PathView(Admin)} />
+            <Route path={PATH.ADMIN} component={PathView(Admin)} />          
             <Route path={PATH.LOCATIONS} component={PathView(LocationRoute)} />
             <Route path={PATH.PROGRAMS} component={PathView(Programs)} />
             <Route path={PATH.PARAMETERS} component={PathView(Parameters)} />
             <Route path={PATH.SETTINGS} component={PathView(Settings)} />
             <Route path={PATH.SECURITY} component={PathView(SecurityRoute)} />
+            <Route path={PATH.USERPROFILE} component={PathView(Userprofile)} />
+
           </Switch>
 
         </div>
