@@ -1,53 +1,43 @@
 import React from "react";
+import style from "./userprofile.module.scss"
 // import style from "./security.module.scss";
 
 const Userprofile = ({}) => {
 
     return (
 
-    <form>
-        <div>
-            <div>
-                <label>Username:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sample</label> 
-            </div>
+    <form className={style.form}>
+        
 
-            <div>
-                <br></br>
-                <label>Roles:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sample</label> 
-            </div>
+            <section className={style.UserInfo}>
+            <p><label>Username:&nbsp;Sample</label></p>              
+            <p><label>Roles:&nbsp;Sample</label></p>
+            </section>
+            
+            <section>
+                <label>Name:</label>
+                <input className={style.inputactual}  type="text" ></input> 
+            </section>
+            
 
-            <div>
-                <br></br>
-                <br></br>
-                <br></br>
-                <label>Name:</label>&nbsp;&nbsp;&nbsp;
-                <input type="text" ></input> 
-            </div>
+             <section>
+                <label>Email:</label>
+                <input className={style.inputactual} type="text" ></input> 
+            </section>
 
-             <div>
-                <br></br>
-                <br></br>
-                <br></br>
-                <label>Email:</label>&nbsp;&nbsp;&nbsp;
-                <input type="text" ></input> 
-            </div>
-
-             <div>
-                <br></br>
-                <br></br>
-                <br></br>
-                <label>Password:</label>&nbsp;&nbsp;&nbsp;
-                <input type="text" ></input> &nbsp;
-                <button> Change Password</button> 
-            </div>
+            <section>
+                <label>Password:</label>
+                <input className={style.inputpass} type="text" ></input> 
+                <button className= {style.change}> Change Password</button> 
+            </section>
+            
 
 
             <div>
-                <br></br>
-                <button type="button">Save</button>
+                <button className={style.save} type="button">Save</button>
             </div>
 
-        </div>
+        
     </form>
 
     )
