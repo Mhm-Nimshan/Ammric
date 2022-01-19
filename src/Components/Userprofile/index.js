@@ -10,7 +10,7 @@ const Userprofile = ({}) => {
         
 
             <section className={style.UserInfo}>
-            <p><label>Username:&nbsp;Sample</label></p>              
+            <p><label className={style.usrname} >Username:&nbsp;Sample</label></p>              
             <p><label>Roles:&nbsp;Sample</label></p>
             </section>
             

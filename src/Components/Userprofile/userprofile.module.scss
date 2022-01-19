@@ -4,17 +4,23 @@
     height: 80%;
     align-items: flex;
     grid-auto-flow: row;
+    margin-left: -2%;
     
 
 
 .UserInfo{
-    margin: auto;
+    
     padding-bottom: 5%;
     padding-top: 2%;
-    margin-left: 0%;
     height: 90%;
     width: 50%;
     display: inherit;
+    word-spacing: 4vw;
+
+    .usrname{
+        word-spacing: 2vw;
+    }
+    
 }
 
 
