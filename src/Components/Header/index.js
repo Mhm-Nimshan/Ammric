@@ -26,14 +26,11 @@ const index = (history) => {
                 <Link className={style.link} to={PATH.ADMIN}>Admin</Link>
             </nav>
 
-        <nav>
-            <button className={style.userSession} type="button" >
-                <Link className={style.uniquelink} to={PATH.USERPROFILE}>
-                <span className={style.span}> John Smith </span>
+            <button className={style.userSession} type="button" onClick={PATH.USERPROFILE}>
+                
+                <span> John Smith </span>
                 <img className={style.userIcon} src={userIcon} alt="user pic" />
-                </Link>
             </button>
-        </nav>
         </div>
     )
 }
