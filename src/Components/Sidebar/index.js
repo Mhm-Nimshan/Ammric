@@ -25,9 +25,7 @@ const index = ({ location }) => {
                
                 {l} 
               
-                {/* "<Link className={style.link} key={sl} to={`/${keyPath}/${sl}`}>
-                    {sl}
-                </Link>" */}
+
             </Link>)
                 
             }
