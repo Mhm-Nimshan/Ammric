@@ -18,7 +18,7 @@
     .nav {
         flex-grow: 1;
         display: flex;
-        margin-left: 10%;
+        margin-left: 0%;
         list-style: none;
         align-items: center;
         justify-content: flex-start;
@@ -61,5 +61,21 @@
 
     }
 
+    ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
 
+a {
+  color: var(--text-color);
+  text-decoration: none;;
+}
+
+.navbarnav {
+  max-width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
 }

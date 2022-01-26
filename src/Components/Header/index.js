@@ -1,14 +1,19 @@
-import React from 'react'
 
+import React, {useState} from 'react'
 
 import style from "./header.module.scss"
 import { Link, Redirect } from "react-router-dom"
 import PATH from "../../Constant"
 import logoSrc from "./AMRRIC.svg"
 import path from '../../Constant'
+import Dropdown from 'react-animated-dropdown';
 
-const index = (history) => {
+
+
+const index = (history, props) => {
     let userIcon = "https://freesvg.org/img/abstract-user-flat-4.png"
+
+    
 
     return (
         <div className={style.container}>
@@ -18,12 +23,18 @@ const index = (history) => {
                 src={logoSrc}></img>
             <nav className={style.nav}>
                 <Link className={style.link} to={PATH.HOME}>Home</Link>
-                <Link className={style.link} to={PATH.PROGRAMS}>Programs</Link>
-                <Link className={style.link} to={PATH.LOCATIONS}>Locations</Link>
-                <Link className={style.link} to={PATH.SECURITY}>Security</Link>
-                <Link className={style.link} to={PATH.PARAMETERS}>Parameters</Link>
-                <Link className={style.link} to={PATH.SETTINGS}>Settings</Link>
-                <Link className={style.link} to={PATH.ADMIN}>Admin</Link>
+                
+                
+                
+
+        
+            <ul>
+              <li><Link className={style.link} to={PATH.ADMIN}>Admin</Link></li>
+              <li><Link className={style.link} to={PATH.SETTINGS}>Settings</Link></li>
+              <li><Link className={style.link} to={PATH.PARAMETERS}>Parameters</Link></li>
+              <li><Link className={style.link} to={PATH.SECURITY}>Security</Link></li>
+              <li><Link className={style.link} to={PATH.PROGRAMS}>Programs</Link></li>
+            </ul>
             </nav>
 
         <nav>

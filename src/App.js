@@ -40,7 +40,6 @@ function App() {
             <Route path={PATH.SETTINGS} component={PathView(Settings)} />
             <Route path={PATH.SECURITY} component={PathView(SecurityRoute)} />
             <Route path={PATH.USERPROFILE} component={PathView(Userprofile)} />
-
           </Switch>
 
         </div>
