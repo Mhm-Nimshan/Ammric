@@ -6,7 +6,8 @@ import { Link, Redirect } from "react-router-dom"
 import PATH from "../../Constant"
 import logoSrc from "./AMRRIC.svg"
 import path from '../../Constant'
-import Dropdown from 'react-animated-dropdown';
+import Dropdown from './Dropdown'
+import Dropitem from './Dropitem'
 
 
 
@@ -24,17 +25,14 @@ const index = (history, props) => {
             <nav className={style.nav}>
                 <Link className={style.link} to={PATH.HOME}>Home</Link>
                 
-                
-                
+                          
 
-        
-            <ul>
-              <li><Link className={style.link} to={PATH.ADMIN}>Admin</Link></li>
-              <li><Link className={style.link} to={PATH.SETTINGS}>Settings</Link></li>
-              <li><Link className={style.link} to={PATH.PARAMETERS}>Parameters</Link></li>
-              <li><Link className={style.link} to={PATH.SECURITY}>Security</Link></li>
-              <li><Link className={style.link} to={PATH.PROGRAMS}>Programs</Link></li>
-            </ul>
+
+            
+        <Dropdown>
+           <Dropitem/>
+        </Dropdown>
+
             </nav>
 
         <nav>
