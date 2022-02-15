@@ -6,40 +6,49 @@ import logoSrc from "./AMRRIC.svg";
 import path from "../../Constant";
 import Dropdownmain from "./Dropdownmain";
 
-const Dropdownlist = () => {
+const Dropdownlist = (props) => {
+  // const [open, setopen] = useState(true);
+
   function Dropdownlistitem(props) {
     return <li className={style.menuitem}>{props.children}</li>;
   }
 
   return (
-    <div className={style.Dropdownlist}>
-      <Dropdownlistitem>
-        <Link className={style.itemlink} to={PATH.SETTINGS}>
-          Settings
-        </Link>
-      </Dropdownlistitem>
+    <div>
+      <div className={style.Dropdownlist}>
+        <Dropdownlistitem>
+          <Link
+            className={style.itemlink}
+            to={PATH.SETTINGS}
+            onClick={console.log(PATH.SETTINGS)}
+          >
+            Settings
+          </Link>
+        </Dropdownlistitem>
 
-      <Dropdownlistitem>
-        <Link className={style.itemlink} to={PATH.PARAMETERS}>
-          Parameters
-        </Link>
-      </Dropdownlistitem>
+        <Dropdownlistitem>
+          <Link className={style.itemlink} to={PATH.PARAMETERS}>
+            Parameters
+          </Link>
+        </Dropdownlistitem>
 
-      <Dropdownlistitem>
-        <Link className={style.itemlink} to={PATH.SECURITY}>
-          Security
-        </Link>
-      </Dropdownlistitem>
+        <Dropdownlistitem>
+          <Link className={style.itemlink} to={PATH.SECURITY}>
+            Security
+          </Link>
+        </Dropdownlistitem>
 
-      <Dropdownlistitem>
-        <Link className={style.itemlink} to={PATH.PROGRAMS}>
-          Programs
-        </Link>
-      </Dropdownlistitem>
+        <Dropdownlistitem>
+          <Link className={style.itemlink} to={PATH.PROGRAMS}>
+            Programs
+          </Link>
+        </Dropdownlistitem>
 
-      <></>
+        <Dropdownlistitem>
+          <Link className={style.itemlink} to={PATH.CLINICAL}></Link>
+        </Dropdownlistitem>
 
-      {/* <Dropdownlistitem>
+        {/* <Dropdownlistitem>
         <Link className={style.itemlink} to={PATH.}>
 
         </Link>
@@ -50,6 +59,8 @@ const Dropdownlist = () => {
       <Dropdownlistitem></Dropdownlistitem>
 
       <Dropdownlistitem></Dropdownlistitem> */}
+      </div>
+      {/* {!open ? <Dropdownlist /> : null} */}
     </div>
   );
 };

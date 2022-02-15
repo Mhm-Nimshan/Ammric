@@ -38,11 +38,15 @@
     .Droplink {
       cursor: pointer;
       font-weight: 400;
-      padding: 7px 50px;
-      width: 101%;
+      padding-bottom: 8px;
+      padding-top: 6px;
+      height: 3%;
+
+      width: 345%;
       transition: 0.4s;
       color: black;
       text-decoration: none;
+
       &:hover {
         background-color: #007283;
         color: rgb(197, 197, 5);
@@ -50,11 +54,12 @@
     }
 
     .Dropdownlist {
-      position: absolute;
+      position: fixed;
       top: 6%;
-      width: 5%;
+      width: 6%;
       transform: translateX(-60%);
       background-color: var(--bg);
+      margin-top: 5px;
       // border: var(--border);
       // border-radius: var(--border-radius);
       padding-right: 160px;
@@ -63,7 +68,7 @@
       overflow: hidden;
       transition: height var(--speed) ease;
       background-color: #007283;
-      margin-left: 5%;
+      margin-left: 6.3%;
       z-index: 1;
 
       .itemlink {

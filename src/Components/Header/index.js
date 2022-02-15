@@ -20,7 +20,7 @@ const index = (history, props) => {
         </Link>
 
         <Dropdownmain className={style.Droplink}>
-          <Dropdownlist className={style.menuitem} caret />
+          <Dropdownlist className={style.menuitem} />
         </Dropdownmain>
       </nav>
 
