@@ -7,7 +7,9 @@ import {
   Redirect,
   Switch,
 } from "react-router-dom/cjs/react-router-dom.min";
-// // import PathView from "./Components/HOC/PathView";
+import PathView from "../HOC/PathView";
+import LocationRoute from "../Locations/LocationRoute";
+import SecurityRoute from "../Security/SecurityRoute";
 // import Header from "./Components/Header";
 // import SideBar from "./Components/Sidebar";
 // import LocationRoute from "./Components/Locations/LocationRoute";
@@ -20,7 +22,13 @@ import {
 // import Userprofile from "./Components/Userprofile";
 
 const Admin = () => {
-  return <Switch></Switch>;
+  return (
+    <Switch>
+      <Route path="/admin/locations" component={PathView(LocationRoute)} />
+      <Route path="/admin/security" component={PathView(SecurityRoute)} />
+      <Route />
+    </Switch>
+  );
 };
 
 export default Admin;

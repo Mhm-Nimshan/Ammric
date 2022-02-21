@@ -15,7 +15,12 @@ const index = ({ location }) => {
     <div className={style.sidebar}>
       {sublink &&
         sublink.map((l) => (
-          <Link className={style.link} key={l} to={`/${keyPath}/${l}`}>
+          <Link
+            className={style.link}
+            key={l}
+            to={`/${keyPath}/${l}`}
+            onClick={console.log(pathArr)}
+          >
             {l}
           </Link>
         ))}
