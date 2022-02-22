@@ -16,40 +16,9 @@ const path = {
 const subLinks = {
   locations: ["council", "communities"],
   security: ["roles", "users"],
-  admin: [
-    "locations",
-    // "Animal details",
-    // "Animal conditions",
-    // "Animal behaviours",
-    // "Animal body parts",
-    // "Clinical Notes",
-    "security",
-    "settings",
-    "programs",
-  ],
+  admin: ["locations", "security", "settings", "programs"],
 };
 
-// const childLink = {
-//   LocationChild: ["Councils", "Communities"],
-//   AnimalDetChild: [
-//     "Species",
-//     "Breed",
-//     "Gender",
-//     "Age group",
-//     "Size",
-//     "Repro Status",
-//     "Microchip",
-//     "Status",
-//   ],
-//   AnimalConChild: ["Condition types", "Condition Values"],
-//   AnimalBehChild: ["Behaviour types", "Behaviour Values"],
-//   AnimalBodChild: ["Body Part types", "Body parts"],
-//   CLinicalNoteChild: ["Problems", "Procedures", "Treatments"],
-//   SecurityChild: ["Roles", "Users"],
-//   SettingsChild: ["System", "Branding", "Application", "Data sync"],
-// };
-
-// export { childLink };
 export { subLinks };
 
 export default path;
