@@ -10,12 +10,22 @@ const path = {
   HOME: "/home",
   USERPROFILE: "/userprofile",
 
-  // ANIMALDETAILS:"/animaldetails"
+  ANIMALDETAILS: "/animaldetails",
 };
 
 const subLinks = {
   locations: ["council", "communities"],
   security: ["roles", "users"],
+  animaldetails: [
+    "species",
+    "breed",
+    "gender",
+    "age group",
+    "size",
+    "Repro status",
+    "Microchip",
+    "Colour",
+  ],
   admin: [
     "locations",
     // "Animal details",

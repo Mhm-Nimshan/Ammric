@@ -60,15 +60,12 @@
       transform: translateX(-60%);
       background-color: var(--bg);
       margin-top: 5px;
-      // border: var(--border);
-      // border-radius: var(--border-radius);
-      padding-right: 160px;
+      padding-right: 8%;
       justify-content: center;
-
       overflow: hidden;
       transition: height var(--speed) ease;
       background-color: #007283;
-      margin-left: 6.3%;
+      margin-left: 5%;
       z-index: 1;
 
       .itemlink {

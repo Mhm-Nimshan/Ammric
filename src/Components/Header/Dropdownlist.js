@@ -25,40 +25,29 @@ const Dropdownlist = (props) => {
             Settings
           </Link>
         </Dropdownlistitem>
-
         <Dropdownlistitem>
           <Link className={style.itemlink} to={PATH.PARAMETERS}>
             Parameters
           </Link>
         </Dropdownlistitem>
-
         <Dropdownlistitem>
           <Link className={style.itemlink} to={PATH.SECURITY}>
             Security
           </Link>
         </Dropdownlistitem>
-
         <Dropdownlistitem>
           <Link className={style.itemlink} to={PATH.PROGRAMS}>
             Programs
           </Link>
         </Dropdownlistitem>
-
         <Dropdownlistitem>
           <Link className={style.itemlink} to={PATH.CLINICAL}></Link>
         </Dropdownlistitem>
-
-        {/* <Dropdownlistitem>
-        <Link className={style.itemlink} to={PATH.}>
-
-        </Link>
-      </Dropdownlistitem>
-
-      <Dropdownlistitem></Dropdownlistitem>
-
-      <Dropdownlistitem></Dropdownlistitem>
-
-      <Dropdownlistitem></Dropdownlistitem> */}
+        <Dropdownlistitem>
+          <Link className={style.itemlink} to={PATH.ANIMALDETAILS}>
+            Animal Details
+          </Link>
+        </Dropdownlistitem>
       </div>
       {/* {!open ? <Dropdownlist /> : null} */}
     </div>

@@ -18,6 +18,7 @@ import { subLinks } from "./Constant";
 
 // import path constant
 import PATH from "./Constant";
+import AnimalDetailRouter from "./Components/Animal Details/AnimalDetailRouter";
 
 function App() {
   return (
@@ -35,7 +36,10 @@ function App() {
             <Route path={PATH.SETTINGS} component={PathView(Settings)} />
             <Route path={PATH.SECURITY} component={PathView(SecurityRoute)} />
             <Route path={PATH.USERPROFILE} component={PathView(Userprofile)} />
-            {/* <Route path={PATH.ANIMALDETAILS} component={pathview(AnimalDetails)}></Route> */}
+            <Route
+              path={PATH.ANIMALDETAILS}
+              component={PathView(AnimalDetailRouter)}
+            />
           </Switch>
         </div>
       </Router>
