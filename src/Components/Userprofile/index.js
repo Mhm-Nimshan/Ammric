@@ -1,6 +1,5 @@
 import React from "react";
 import style from "./userprofile.module.scss";
-// import style from "./security.module.scss";
 
 const Userprofile = ({}) => {
   return (

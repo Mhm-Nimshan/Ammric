@@ -19,7 +19,6 @@ const Dropdownmain = (props) => {
         <Link to={PATH.ADMIN}>Admin</Link>
       </ul>
       {open && props.children}
-      {/* {!open && props.children - null} */}
     </li>
   );
 };
