@@ -1,0 +1,16 @@
+.Container {
+  display: inline-flex;
+}
+.Child {
+  margin-left: 0%;
+  width: 10%;
+  display: inline-flex;
+
+  .Label {
+    float: right;
+  }
+
+  .Select {
+    float: right;
+  }
+}

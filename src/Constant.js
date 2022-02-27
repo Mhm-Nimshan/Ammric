@@ -26,17 +26,7 @@ const subLinks = {
     "Microchip",
     "Colour",
   ],
-  admin: [
-    "locations",
-    // "Animal details",
-    // "Animal conditions",
-    // "Animal behaviours",
-    // "Animal body parts",
-    // "Clinical Notes",
-    "security",
-    "settings",
-    "programs",
-  ],
+  admin: ["locations", "settings", "programs"],
 };
 
 // const childLink = {
