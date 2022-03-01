@@ -1,24 +1,23 @@
-import React from 'react'
+import React from "react";
 
-import { Redirect, Route, Switch } from "react-router-dom"
+import { Redirect, Route, Switch } from "react-router-dom";
 
-
-import Communities from "./Communities"
-import Council from "./index"
-import AddCouncil from "./AddCouncil"
-import AddCommunities from "./AddCommunities"
+import Communities from "./Communities";
+import Council from "./index";
+import AddCouncil from "./AddCouncil";
+import AddCommunities from "./AddCommunities";
 const LocationRoute = () => {
-    return (
-        <Switch>
-            <Route exact path="/locations/council" component={Council} />
-            <Route exact path="/locations/communities" component={Communities} />
-            <Route exact path="/locations/council/add" component={AddCouncil} />
-            <Route exact path="/locations/council/edit" component={AddCouncil} />
-            <Route exact path="/locations/communities/add" component={AddCommunities} />
-            <Route exact path="/locations/communities/edit" component={AddCommunities} />
-            <Redirect to="/locations/council" />
-        </Switch>
-    )
-}
+  return (
+    <Switch>
+      <Route path="/locations/council/edit" component={AddCouncil} />
+      <Route path="/locations/council" component={Council} />
+      <Route path="/locations/communities" component={Communities} />
+      <Route path="/locations/council/add" component={AddCouncil} />
+      <Route path="/locations/communities/add" component={AddCommunities} />
+      <Route path="/locations/communities/edit" component={AddCommunities} />
+      <Redirect to="/locations/council" />
+    </Switch>
+  );
+};
 
-export default LocationRoute
+export default LocationRoute;
