@@ -7,8 +7,6 @@ import path from "../../Constant";
 import Dropdownmain from "./Dropdownmain";
 
 const Dropdownlist = (props) => {
-  // const [open, setopen] = useState(true);
-
   function Dropdownlistitem(props) {
     return <li className={style.menuitem}>{props.children}</li>;
   }
@@ -49,7 +47,6 @@ const Dropdownlist = (props) => {
           </Link>
         </Dropdownlistitem>
       </div>
-      {/* {!open ? <Dropdownlist /> : null} */}
     </div>
   );
 };
