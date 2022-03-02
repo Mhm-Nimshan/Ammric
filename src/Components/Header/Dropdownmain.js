@@ -16,7 +16,7 @@ const Dropdownmain = (props) => {
   return (
     <li>
       <ul className={style.Droplink} onClick={() => setopen(!open)}>
-        <Link to={PATH.ADMIN}>Admin</Link>
+        <label>Admin</label>
       </ul>
       {open && props.children}
       {/* {!open && props.children - null} */}

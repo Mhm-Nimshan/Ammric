@@ -41,11 +41,18 @@ const Dropdownlist = (props) => {
           </Link>
         </Dropdownlistitem>
         <Dropdownlistitem>
-          <Link className={style.itemlink} to={PATH.CLINICAL}></Link>
+          <Link className={style.itemlink} to={PATH.CLINICAL}>
+            Clinical Notes
+          </Link>
         </Dropdownlistitem>
         <Dropdownlistitem>
           <Link className={style.itemlink} to={PATH.ANIMALDETAILS}>
             Animal Details
+          </Link>
+        </Dropdownlistitem>
+        <Dropdownlistitem>
+          <Link className={style.itemlink} to={PATH.LOCATIONS}>
+            Locations
           </Link>
         </Dropdownlistitem>
       </div>

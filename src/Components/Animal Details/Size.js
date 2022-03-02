@@ -4,31 +4,18 @@ import Table from "../Common/Table/Table";
 import AnimalDetailRouter from "./AnimalDetailRouter";
 import style from "./AnimalDetail.module.scss";
 
-const Agegroup = () => {
-  // const fetchRoles = async () => {
-  //       try {
-  //           let res = await fetch("/api/roles/all")
-  //           res = await res.json();
-  //           if (res.error) {
-  //               console.log(res.error)
-  //           } else { setRoles(res.data) }
-
-  //       } catch (error) {
-  //           console.log(error)
-  //       }
-
-  //   }
+const Size = () => {
   let cols = [
     "Code",
     "Description",
     "Sort",
     "Is Default",
-    "From (mths)",
-    "To (mths)",
+    "Icon",
     "Species",
     "Is System",
   ];
-  let data = ["sample", "sample"];
+  let data = ["1", "2", "3"];
+
   return (
     <div>
       <div className={style.Child}>
@@ -43,4 +30,4 @@ const Agegroup = () => {
   );
 };
 
-export default Agegroup;
+export default Size;

@@ -22,13 +22,7 @@ import SecurityRoute from "../Security/SecurityRoute";
 // import Userprofile from "./Components/Userprofile";
 
 const Admin = () => {
-  return (
-    <Switch>
-      <Route path="/admin/locations" component={PathView(LocationRoute)} />
-      <Route path="/admin/security" component={PathView(SecurityRoute)} />
-      <Route />
-    </Switch>
-  );
+  return <div></div>;
 };
 
 export default Admin;

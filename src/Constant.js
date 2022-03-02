@@ -9,7 +9,6 @@ const path = {
   SETTINGS: "/settings",
   HOME: "/home",
   USERPROFILE: "/userprofile",
-
   ANIMALDETAILS: "/animaldetails",
 };
 
@@ -26,7 +25,6 @@ const subLinks = {
     "Microchip",
     "Colour",
   ],
-  admin: ["locations", "settings", "programs"],
 };
 
 // const childLink = {
