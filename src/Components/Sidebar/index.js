@@ -9,7 +9,6 @@ const index = ({ location }) => {
   let pathArr = location.pathname.split("/");
   let keyPath = pathArr.length > 1 ? pathArr[1] : "";
   let sublink = subLinks[keyPath];
-  // let childLinks = childLink [sublink]
 
   return (
     <div className={style.sidebar}>

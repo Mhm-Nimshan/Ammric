@@ -53,5 +53,5 @@
     "node-sass": "^4.14.1",
     "ts-jest": "^27.0.5"
   },
-  "proxy": "https://amrricdevelopportalbackend.azurewebsites.net"
+  "proxy": "https://amrricdevelopportalbackend.azurewebsites.net/"
 }

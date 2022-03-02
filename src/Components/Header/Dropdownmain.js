@@ -19,7 +19,6 @@ const Dropdownmain = (props) => {
         <label>Admin</label>
       </ul>
       {open && props.children}
-      {/* {!open && props.children - null} */}
     </li>
   );
 };

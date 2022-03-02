@@ -27,27 +27,6 @@ const subLinks = {
   ],
 };
 
-// const childLink = {
-//   LocationChild: ["Councils", "Communities"],
-//   AnimalDetChild: [
-//     "Species",
-//     "Breed",
-//     "Gender",
-//     "Age group",
-//     "Size",
-//     "Repro Status",
-//     "Microchip",
-//     "Status",
-//   ],
-//   AnimalConChild: ["Condition types", "Condition Values"],
-//   AnimalBehChild: ["Behaviour types", "Behaviour Values"],
-//   AnimalBodChild: ["Body Part types", "Body parts"],
-//   CLinicalNoteChild: ["Problems", "Procedures", "Treatments"],
-//   SecurityChild: ["Roles", "Users"],
-//   SettingsChild: ["System", "Branding", "Application", "Data sync"],
-// };
-
-// export { childLink };
 export { subLinks };
 
 export default path;
