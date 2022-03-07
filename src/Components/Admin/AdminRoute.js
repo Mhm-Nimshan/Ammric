@@ -17,8 +17,8 @@ const AdminRoute = () => {
       <Route
         exact
         path="/Components/security/users/edit"
-        component={AddUsers} */}
-      />
+        component={AddUsers}
+      /> */}
       <Route
         exact
         path="/Components/security/roles"

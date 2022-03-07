@@ -4,14 +4,12 @@ import style from "./security.module.scss"
 import AddOption from "./AddOption"
 import { fecthApi } from "../Common/Table/APIUtil"
 
-
-
 const endURL = "/api/users"
-
-
 
 const AddUsers = ({ history, location }) => {
     const [user, setUser] = useState({ ...location.state })
+    if (Object.entries(user).length == 0)   // New User
+        user['ExpirePassword'] = false;
     const [userRoles, setRoles] = useState([])
     const [currentRoles, setCurrentRoles] = useState([])
 
@@ -46,7 +44,7 @@ const AddUsers = ({ history, location }) => {
     }
 
     const onError = (err) => {
-        console.log(err)
+        console.error(err)
     }
 
     const getRoles = () => {
@@ -55,15 +53,13 @@ const AddUsers = ({ history, location }) => {
             .then(data => setCurrentRoles(data.data.map(item => item["RoleCode"])))
     }
 
-
-
     return (
         <form>
             <div className={"flex-between " + style.container} >
 
                 <div className={style.form} >
                     <div>
-                        <label className="tag" htmlFor="Username" >User Name *</label> <br></br>
+                        <label className="tag" htmlFor="Username">User Name *</label> <br></br>
                         <input className="input" type="text" id="Username" required value={user["Username"]} onChange={onChange} />
                     </div>
                     <div>
@@ -71,19 +67,19 @@ const AddUsers = ({ history, location }) => {
                         <input className="input" type="text" id="Name" value={user["Name"]} onChange={onChange} />
                     </div>
                     <div>
-                        <label className="tag" htmlFor="Email" >Email</label> <br></br>
+                        <label className="tag" htmlFor="Email">Email *</label> <br></br>
                         <input className="input" type="text" id="Email" value={user["Email"]} onChange={onChange} />
                     </div>
                     <div>
-                        <label className="tag" htmlFor="Active" > Is Enabled </label>
+                        <label className="tag" htmlFor="Active"> Is Enabled </label>
                         <input type="checkbox" id="Active" checked={user["Active"]} onChange={onChange} />
                     </div>
                     <div>
-                        <label className="tag" htmlFor="Password"  >Password *</label> <br></br>
+                        <label className="tag" htmlFor="Password">Password *</label> <br></br>
                         <input className="input" type="text" id="Password" onChange={onChange} required value={user["Password"]} />
                     </div>
                     <div>
-                        <label className="tag" htmlFor="expire" > Expire Password</label>
+                        <label className="tag" htmlFor="ExpirePassword"> Expire Password</label>
                         <input type="checkbox" id="ExpirePassword" checked={user["ExpirePassword"]} onChange={onChange} />
 
                     </div>
@@ -99,9 +95,5 @@ const AddUsers = ({ history, location }) => {
         </form>
     )
 }
-
-
-
-
 
 export default AddUsers
