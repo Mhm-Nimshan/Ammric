@@ -56,16 +56,16 @@
     .Dropdownlist {
       position: fixed;
       top: 6%;
-      width: 6%;
+      width: 5.5%;
       transform: translateX(-60%);
       background-color: var(--bg);
-      margin-top: 5px;
-      padding-right: 10.5%;
+      margin-top: -12px;
+      padding-right: max(161px);
       justify-content: center;
       overflow: hidden;
       transition: height var(--speed) ease;
       background-color: #007283;
-      margin-left: 6.2%;
+      margin-left: max(96.5px);
       z-index: 1;
 
       .itemlink {
