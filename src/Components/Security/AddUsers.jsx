@@ -3,13 +3,15 @@ import { uuid } from "uuidv4";
 import style from "./security.module.scss";
 import AddOption from "./AddOption";
 import { fecthApi } from "../Common/Table/APIUtil";
+import { toBeInvalid } from "@testing-library/jest-dom/dist/matchers";
 
 const endURL = "/api/users";
+const CryptoJS = require("crypto-js");
 
 const AddUsers = ({ history, location }) => {
   const [user, setUser] = useState({ ...location.state });
   if (Object.entries(user).length == 0)
-    // New User
+    // if user is new if the entry of user on server side is equivalent to 0
     user["ExpirePassword"] = false;
   const [userRoles, setRoles] = useState([]);
   const [currentRoles, setCurrentRoles] = useState([]);
@@ -41,11 +43,50 @@ const AddUsers = ({ history, location }) => {
     if (location.state) {
       method = "PUT";
     }
-    fecthApi(endURL, method, user).catch((err) => callback(err));
+
+    const email = document.getElementById("Email");
+    if (!email.checkValidity()) {
+      alert("email invalid");
+    } else {
+      console.log("email valid");
+      fecthApi(endURL, method, user)
+        .then((res) => res.json()) //promise, runs this on response from server
+        .catch((err) => callback(err)); //catch, runs if the promise is rejected
+    }
+
+    const password = document.getElementById("Password");
+    function CheckPassword(inputtxt) {
+      var decimal = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
+      if (inputtxt.value.match(decimal)) {
+        console.log("validpass");
+        return true;
+      } else {
+        console.log("invalid");
+      }
+    }
+
+    CheckPassword(password);
+
+    // var ciphertext = CryptoJS.AES.encrypt(
+    //   JSON.stringify(password),
+    //   "my-secret-key@123"
+    // ).toString();
+
+    // console.log("Encrypt Data -");
+    // console.log(ciphertext);
+
+    // // Decrypt
+    // var bytes = CryptoJS.AES.decrypt(ciphertext, "my-secret-key@123");
+    // var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+
+    // //log decrypted Data
+    // console.log("decrypted Data -");
+    // console.log(decryptedData);
   };
 
   const onError = (err) => {
     console.error(err);
+    alert(err); //creates the browser error if there is one to display
   };
 
   const getRoles = () => {
@@ -93,23 +134,30 @@ const AddUsers = ({ history, location }) => {
             </label>{" "}
             <br></br>
             <input
-              className="input"
-              type="text"
+              className={style.input}
+              type="email"
+              required
               id="Email"
               value={user["Email"]}
               onChange={onChange}
             />
           </div>
           <div>
-            <label className="tag" htmlFor="Active">
-              {" "}
-              Is Enabled{" "}
-            </label>
+            <label htmlFor="MyCouncils">Edit My Councils</label>
             <input
               type="checkbox"
-              id="Active"
-              checked={user["Active"]}
+              id="MyCouncils"
               onChange={onChange}
+              value={user["MyCouncils"]}
+            />
+          </div>
+          <div>
+            <label htmlFor="WebPortal">Web Portal</label>
+            <input
+              type="checkbox"
+              id="WebPortal"
+              onChange={onChange}
+              value={user["WebPortal"]}
             />
           </div>
           <div>
@@ -118,7 +166,7 @@ const AddUsers = ({ history, location }) => {
             </label>{" "}
             <br></br>
             <input
-              className="input"
+              className={style.password}
               type="text"
               id="Password"
               onChange={onChange}
@@ -135,6 +183,18 @@ const AddUsers = ({ history, location }) => {
               type="checkbox"
               id="ExpirePassword"
               checked={user["ExpirePassword"]}
+              onChange={onChange}
+            />
+          </div>
+          <div>
+            <label className="tag" htmlFor="Active">
+              {" "}
+              Is Enabled{" "}
+            </label>
+            <input
+              type="checkbox"
+              id="Active"
+              checked={user["Active"]}
               onChange={onChange}
             />
           </div>
