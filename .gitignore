@@ -4,6 +4,8 @@
 /node_modules
 /.pnp
 .pnp.js
+package-lock.json
+yarn.lock
 
 # testing
 /coverage
@@ -24,4 +26,3 @@ yarn-error.log*
 
 # Local Conf files
 .vscode
-package.json
