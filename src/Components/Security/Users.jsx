@@ -12,7 +12,7 @@ const Users = ({ history }) => {
     const [filters, setFilters] = useState({ roles: "", enabled: "true" })
     const [roles, setRoles] = useState(["", "admin", "amrric", "vet"])
     let cols = ["Name", "Email", "Roles", "Active", "WebPortal", "EditMyCouncils"]
-    let auditCols = ["Name", "Last Mobile Log in", "Last Mobile sync", "Last Portal log in"]
+    let auditCols = ["Name", "LastMobileLogIn", "LastMobileSync", "LastPortalLogIn"]
 
     const fetchUsers = async () => {
         try {
