@@ -5,15 +5,7 @@ import { onDelete, onEdit } from "../Common/Table/APIUtil"
 
 
 const baseURL = "/api/council"
-const fetchURL = baseURL// + "/?active=0"
 const editURl = "/locations/council/edit"
-
-const groupBy = keys => array =>
-  array.reduce((objectsByKeyValue, obj) => {
-    const value = keys.map(key => obj[key]).join('-');
-    objectsByKeyValue[value] = (objectsByKeyValue[value] || []).concat(obj);
-    return objectsByKeyValue;
-  }, {});
 
 const Council = ({ history, location }) => {
     const [state, setState] = useState("All")
@@ -31,7 +23,7 @@ const Council = ({ history, location }) => {
 
     const fetchCouncils = async () => {
         try {
-            let res = await fetch(fetchURL)
+            let res = await fetch(baseURL)
             res = await res.json();
             if (res.error)
                 console.error(res.error)
@@ -55,8 +47,8 @@ const Council = ({ history, location }) => {
         return false
     }
 
-    const deleteItem = onDelete(baseURL, fetchCouncils)
     const editItem = onEdit(history, editURl)
+    const deleteItem = onDelete(baseURL, fetchCouncils)
 
     const getDisplayData = () => {
         let activeCouncils = councils.filter(council => council.Active)

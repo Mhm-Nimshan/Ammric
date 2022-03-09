@@ -3,56 +3,44 @@ import style from "./security.module.scss"
 import Table from "../Common/Table/Table"
 import { onDelete, onEdit } from "../Common/Table/APIUtil.js"
 
-
-const editURl = "/security/users/edit";
-const deleteURL = "/api/users"
+const baseURL = "/api/users"
+const editURl = "/security/users/edit"
 
 const Users = ({ history }) => {
     const [users, setUsers] = useState([])
     const [hideAudit, setHideAudit] = useState(true)
     const [filters, setFilters] = useState({ roles: "", enabled: "true" })
-    const [roles, setRoles] = useState([])
+    const [roles, setRoles] = useState(["", "admin", "amrric", "vet"])
+    let cols = ["Name", "Email", "Roles", "Active", "WebPortal", "EditMyCouncils"]
+    let auditCols = ["Name", "Last Mobile Log in", "Last Mobile sync", "Last Portal log in"]
 
     const fetchUsers = async () => {
         try {
-            let res = await fetch("/api/users/all")
+            let res = await fetch(`${baseURL}/all`)
             res = await res.json();
-            if (res.error) {
-                console.log(res.error)
-            } else {
+            if (res.error)
+                console.error(res.error)
+            else
                 setUsers(res.data)
-                let temp = res.data.map(item => item["RoleCodes"].split(",")).reduce((item, acc) => [...new Set([...acc, ...item])], [])
-                setRoles(["", ...temp])
-            }
-
         } catch (error) {
-            console.log(error)
+            console.error(error)
         }
-
     }
 
     useEffect(() => {
         fetchUsers()
     }, [])
 
-    let cols = ["Username", "Name", "Email", "RoleCodes", "Active"]
-    let auditCols = ["Username", "Name", "Last Mobile Log in", "Last Mobile sync", "Last Portal log in"]
-
     const editItem = onEdit(history, editURl)
-    const deleteItem = onDelete(deleteURL, fetchUsers)
-
+    const deleteItem = onDelete(baseURL, fetchUsers)
 
     const displayData = (data) => {
-        let enabled = filters.enabled === "true"
-        let temp = data.filter((item) => item["Active"] === enabled)
-        if (filters.roles) {
-            temp = temp.filter((item) => (item["RoleCodes"]?.includes(filters.roles)))
-        }
-        return temp;
+        let enableFilter = filters.enabled === "true"
+        let filteredUsers = data.filter((user) => user.Active === enableFilter)
+        if (filters.roles)
+            filteredUsers = filteredUsers.filter(user => user["Roles"]?.includes(filters.roles))
+        return filteredUsers;
     }
-
-
-
 
     return (
         <div>
@@ -60,33 +48,21 @@ const Users = ({ history }) => {
                 <button className="bt-add" onClick={() => history.push("/security/users/add")} > Add </button>
                 <span className={style.plainBt} onClick={() => setHideAudit(!hideAudit)}> {hideAudit ? "View" : "Hide"} Audit Data</span>
                 <span>
-                    <select value={filters.roles} onChange={(e) => setFilters((prev) => ({ ...prev, roles: e.target.value }))}  >
+                    <select value={filters.roles}
+                            onChange={(e) => setFilters((prev) => ({ ...prev, roles: e.target.value }))}>
                         {roles.map(item => <option key={item} value={item}>  {item} </option>)}
                     </select>
-                    <select
-                        value={filters.enabled}
-                        onChange={(e) => setFilters((prev) => ({ ...prev, enabled: e.target.value }))}
-
-                    >
+                    <select value={filters.enabled}
+                            onChange={(e) => setFilters((prev) => ({ ...prev, enabled: e.target.value }))}>
                         <option value={true} > Enabled</option>
                         <option value={false}> Disabled</option>
                     </select>
-
                 </span>
-
-                <span > No deleted  </span>
-
+                <span>No deleted</span>
             </div>
             <Table onEdit={editItem} onDelete={deleteItem} cols={hideAudit ? cols : auditCols} data={displayData(users)} pk={"Username"} />
         </div>
     )
-
 }
-
-
-
-
-
-
 
 export default Users

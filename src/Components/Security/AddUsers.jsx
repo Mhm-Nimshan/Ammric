@@ -10,8 +10,8 @@ const CryptoJS = require("crypto-js");
 
 const AddUsers = ({ history, location }) => {
   const [user, setUser] = useState({ ...location.state });
+  // New user - User object has no entries
   if (Object.entries(user).length == 0)
-    // if user is new if the entry of user on server side is equivalent to 0
     user["ExpirePassword"] = false;
   const [userRoles, setRoles] = useState([]);
   const [currentRoles, setCurrentRoles] = useState([]);
