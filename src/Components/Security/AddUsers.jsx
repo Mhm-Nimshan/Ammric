@@ -10,8 +10,8 @@ const CryptoJS = require("crypto-js");
 
 const AddUsers = ({ history, location }) => {
   const [user, setUser] = useState({ ...location.state });
-  // New user - User object has no entries
   if (Object.entries(user).length == 0)
+    // New user - User object has no entries
     user["ExpirePassword"] = false;
   const [userRoles, setRoles] = useState([]);
   const [currentRoles, setCurrentRoles] = useState([]);
@@ -49,9 +49,7 @@ const AddUsers = ({ history, location }) => {
       alert("email invalid");
     } else {
       console.log("email valid");
-      fecthApi(endURL, method, user)
-        .then((res) => res.json()) //promise, runs this on response from server
-        .catch((err) => callback(err)); //catch, runs if the promise is rejected
+      fecthApi(endURL, method, user).catch((err) => callback(err)); //catch, runs if the promise is rejected
     }
 
     const password = document.getElementById("Password");
@@ -59,6 +57,18 @@ const AddUsers = ({ history, location }) => {
       var decimal = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
       if (inputtxt.value.match(decimal)) {
         console.log("validpass");
+
+        const newholderpass = {};
+        password.password = newholderpass;
+
+        var ciphertext = CryptoJS.AES.encrypt(
+          JSON.stringify(newholderpass),
+          "eEEAJEVHu3JMMX0Ilh9Z"
+        ).toString();
+
+        console.log("Encrypt Data -");
+        console.log(ciphertext);
+
         return true;
       } else {
         console.log("invalid");
@@ -66,22 +76,6 @@ const AddUsers = ({ history, location }) => {
     }
 
     CheckPassword(password);
-
-    // var ciphertext = CryptoJS.AES.encrypt(
-    //   JSON.stringify(password),
-    //   "my-secret-key@123"
-    // ).toString();
-
-    // console.log("Encrypt Data -");
-    // console.log(ciphertext);
-
-    // // Decrypt
-    // var bytes = CryptoJS.AES.decrypt(ciphertext, "my-secret-key@123");
-    // var decryptedData = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-
-    // //log decrypted Data
-    // console.log("decrypted Data -");
-    // console.log(decryptedData);
   };
 
   const onError = (err) => {
@@ -148,7 +142,7 @@ const AddUsers = ({ history, location }) => {
               type="checkbox"
               id="MyCouncils"
               onChange={onChange}
-              value={user["MyCouncils"]}
+              value={user["EditMyCouncils"]}
             />
           </div>
           <div>
@@ -166,7 +160,7 @@ const AddUsers = ({ history, location }) => {
             </label>{" "}
             <br></br>
             <input
-              className={style.password}
+              className={style.input}
               type="text"
               id="Password"
               onChange={onChange}
