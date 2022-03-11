@@ -13,6 +13,8 @@ const AddUsers = ({ history, location }) => {
   if (Object.entries(user).length == 0)
     // New user - User object has no entries
     user["ExpirePassword"] = false;
+  user["WebPortal"] = false;
+  user["EditMyCouncils"] = false;
   const [userRoles, setRoles] = useState([]);
   const [currentRoles, setCurrentRoles] = useState([]);
 
@@ -49,7 +51,6 @@ const AddUsers = ({ history, location }) => {
       alert("email invalid");
     } else {
       console.log("email valid");
-      fecthApi(endURL, method, user).catch((err) => callback(err)); //catch, runs if the promise is rejected
     }
 
     const password = document.getElementById("Password");
@@ -65,16 +66,21 @@ const AddUsers = ({ history, location }) => {
           JSON.stringify(newholderpass),
           "eEEAJEVHu3JMMX0Ilh9Z"
         ).toString();
+        user.Password = ciphertext;
+        fecthApi(endURL, method, user).catch((err) => callback(err)); //catch, runs if the promise is rejected
 
         console.log("Encrypt Data -");
         console.log(ciphertext);
+        console.log(user);
 
         return true;
       } else {
-        console.log("invalid");
+        alert(
+          "password must contain at least one number, capital letter, lower case letter, and be a minimum of eight characters long "
+        );
+        return false;
       }
     }
-
     CheckPassword(password);
   };
 
@@ -96,19 +102,20 @@ const AddUsers = ({ history, location }) => {
       <div className={"flex-between " + style.container}>
         <div className={style.form}>
           <div>
-            <label className="tag" htmlFor="Username">
-              User Name *
+            <label className="tag" htmlFor="Email">
+              Email *
             </label>{" "}
             <br></br>
             <input
               className="input"
-              type="text"
-              id="Username"
+              type="email"
               required
-              value={user["Username"]}
+              id="Email"
+              value={user["Email"]}
               onChange={onChange}
             />
           </div>
+
           <div>
             <label className="tag" htmlFor="Name">
               Name
@@ -118,50 +125,49 @@ const AddUsers = ({ history, location }) => {
               className="input"
               type="text"
               id="Name"
+              required
               value={user["Name"]}
               onChange={onChange}
             />
           </div>
+
           <div>
-            <label className="tag" htmlFor="Email">
-              Email *
-            </label>{" "}
-            <br></br>
-            <input
-              className={style.input}
-              type="email"
-              required
-              id="Email"
-              value={user["Email"]}
-              onChange={onChange}
-            />
+            <label className="tag" htmlFor="MyCouncils">
+              Edit My Councils
+            </label>
+            <label className={style.switch}>
+              <input
+                type="checkbox"
+                id="EditMyCouncils"
+                onChange={onChange}
+                value={user["EditMyCouncils"]}
+              />
+              <span className={style.slider}></span>
+            </label>
           </div>
           <div>
-            <label htmlFor="MyCouncils">Edit My Councils</label>
-            <input
-              type="checkbox"
-              id="MyCouncils"
-              onChange={onChange}
-              value={user["EditMyCouncils"]}
-            />
-          </div>
-          <div>
-            <label htmlFor="WebPortal">Web Portal</label>
-            <input
-              type="checkbox"
-              id="WebPortal"
-              onChange={onChange}
-              value={user["WebPortal"]}
-            />
+            <label className="tag" htmlFor="WebPortal">
+              {" "}
+              {""}Web Portal
+            </label>
+            <label className={style.switch}>
+              <input
+                type="checkbox"
+                id="WebPortal"
+                onChange={onChange}
+                value={user["WebPortal"]}
+              />
+              <span className={style.slider}></span>
+            </label>
           </div>
           <div>
             <label className="tag" htmlFor="Password">
               Password *
-            </label>{" "}
+            </label>
             <br></br>
             <input
-              className={style.input}
-              type="text"
+              className="input"
+              type="password"
               id="Password"
               onChange={onChange}
               required
@@ -173,24 +179,31 @@ const AddUsers = ({ history, location }) => {
               {" "}
               Expire Password
             </label>
-            <input
-              type="checkbox"
-              id="ExpirePassword"
-              checked={user["ExpirePassword"]}
-              onChange={onChange}
-            />
+            <label className={style.switch}>
+              <input
+                type="checkbox"
+                id="ExpirePassword"
+                checked={user["ExpirePassword"]}
+                onChange={onChange}
+              />
+              <span className={style.slider}></span>
+            </label>
           </div>
           <div>
             <label className="tag" htmlFor="Active">
               {" "}
               Is Enabled{" "}
             </label>
-            <input
-              type="checkbox"
-              id="Active"
-              checked={user["Active"]}
-              onChange={onChange}
-            />
+
+            <label className={style.switch}>
+              <input
+                type="checkbox"
+                id="Active"
+                checked={user["Active"]}
+                onChange={onChange}
+              />
+              <span className={style.slider}></span>
+            </label>
           </div>
         </div>
         <div className={style.user_role}>
