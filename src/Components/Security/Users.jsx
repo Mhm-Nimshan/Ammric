@@ -74,8 +74,8 @@ const Users = ({ history }) => {
           className={style.plainBt}
           onClick={() => setHideAudit(!hideAudit)}
         >
-          {" "}
-          {hideAudit ? "View" : "Hide"} Audit Data
+          {/* {" "}
+          {hideAudit ? "View" : "Hide"} Audit Data */}
         </span>
         <span>
           <select
@@ -98,7 +98,7 @@ const Users = ({ history }) => {
             }
           >
             <option value={true}> Enabled</option>
-            <option value={false}> Disabled</option>
+          
           </select>
         </span>
         <span>No deleted</span>
