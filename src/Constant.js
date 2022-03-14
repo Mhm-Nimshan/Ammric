@@ -14,7 +14,7 @@ const path = {
 
 const subLinks = {
   locations: ["council", "communities"],
-  security: ["roles", "users"],
+  security: ["users"],
   animaldetails: [
     "species",
     "breed",
