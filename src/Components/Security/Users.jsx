@@ -11,6 +11,7 @@ const Users = ({ history }) => {
   const [hideAudit, setHideAudit] = useState(true);
   const [filters, setFilters] = useState({ roles: "", enabled: "true" });
   const [roles, setRoles] = useState(["", "admin", "amrric", "vet"]);
+  const [hideDeleted, showDeleted] = useState(true)
 
   let cols = [
     "Name",
@@ -27,6 +28,11 @@ const Users = ({ history }) => {
     "Last Portal log in",
   ];
 
+  
+
+  let deleted = [
+  
+  ];
   const fetchUsers = async () => {
     try {
       let res = await fetch(`${baseURL}/all`);
@@ -101,13 +107,13 @@ const Users = ({ history }) => {
           
           </select>
         </span>
-        <span>No deleted</span>
+        <span onClick={() => showDeleted(!hideDeleted)} className = {style.plainBt}>No deleted</span>
       </div>
       <Table
         onEdit={editItem}
         onDelete={deleteItem}
         cols={hideAudit ? cols : auditCols}
-        data={displayData(users)}
+        data={ hideDeleted ? displayData(users) : deleted}
         pk={"Username"}
       />
     </div>
