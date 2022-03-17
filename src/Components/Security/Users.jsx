@@ -8,10 +8,11 @@ const editURl = "/security/users/edit";
 
 const Users = ({ history }) => {
   const [users, setUsers] = useState([]);
+  const [inactiveUsers, setDeleted] = useState([])
   const [hideAudit, setHideAudit] = useState(true);
   const [filters, setFilters] = useState({ roles: "", enabled: "true" });
   const [roles, setRoles] = useState(["", "admin", "amrric", "vet"]);
-  const [hideDeleted, showDeleted] = useState(true)
+  const [showDeleted, setShowDeleted] = useState(false);
 
   let cols = [
     "Name",
@@ -29,42 +30,55 @@ const Users = ({ history }) => {
   ];
 
   
-
-  let deleted = [
-  
-  ];
   const fetchUsers = async () => {
     try {
       let res = await fetch(`${baseURL}/all`);
+      let deleted = await fetch(`${baseURL}/all/?active=0`)
       res = await res.json();
+      deleted = await deleted.json();
       console.time("Finished in");
 
       if (res.error) console.error(res.error);
-      else setUsers(res.data);
+      else if (deleted.error) console.error(deleted.error);
+      else {
+        setUsers(res.data)
+        console.log('Active Users: ', res.data)
+        setDeleted(deleted.data)
+        console.log('Deleted Users: ', deleted.data)
+      };
     } catch (error) {
       console.error(error);
     }
 
-    console.timeLog("Finished in");
-    console.timeEnd("Finished in");
   };
+
 
   useEffect(() => {
     fetchUsers();
+    
   }, []);
+
 
   const editItem = onEdit(history, editURl);
   const deleteItem = onDelete(baseURL, fetchUsers);
 
   const displayData = (data) => {
+    console.log('Data before filtering', data)
     let enableFilter = filters.enabled === "true";
+    // let disablefilter = filters.disabled === "false";
     let filteredUsers = data.filter((user) => user.Active === enableFilter);
+    console.log('Data after filtering', filteredUsers)
+    // let filteredDisabledUsers = data.filter((user) => user.Active=false === disablefilter)
     if (filters.roles)
       filteredUsers = filteredUsers.filter((user) =>
-        user["Roles"]?.includes(filters.roles)
-      );
-    return filteredUsers;
+        user["Roles"]?.includes(filters.roles)); 
+    return data;
+    
+
+   
+  
   };
+
 
   return (
     <div>
@@ -83,8 +97,9 @@ const Users = ({ history }) => {
           {/* {" "}
           {hideAudit ? "View" : "Hide"} Audit Data */}
         </span>
-        <span>
-          <select
+        <span className={style.select}>
+          <select 
+          className={style.selector}
             value={filters.roles}
             onChange={(e) =>
               setFilters((prev) => ({ ...prev, roles: e.target.value }))
@@ -98,6 +113,7 @@ const Users = ({ history }) => {
             ))}
           </select>
           <select
+          className={style.selector}
             value={filters.enabled}
             onChange={(e) =>
               setFilters((prev) => ({ ...prev, enabled: e.target.value }))
@@ -107,14 +123,16 @@ const Users = ({ history }) => {
           
           </select>
         </span>
-        <span onClick={() => showDeleted(!hideDeleted)} className = {style.plainBt}>No deleted</span>
+        <span onClick={() => setShowDeleted(!showDeleted)} className = {style.plainBt}>  {!showDeleted ? "View" : "Hide"} deleted</span>
       </div>
       <Table
         onEdit={editItem}
         onDelete={deleteItem}
         cols={hideAudit ? cols : auditCols}
-        data={ hideDeleted ? displayData(users) : deleted}
+        data={ !showDeleted ? displayData(users) : displayData(users).concat(inactiveUsers)} 
+      
         pk={"Username"}
+        
       />
     </div>
   );

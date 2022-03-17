@@ -143,3 +143,15 @@ input:checked + .slider:before {
     margin-left: 10px;
   }
 }
+
+.select{
+  margin-right: min(2.5%);
+ width: 47%;
+
+
+ .selector{
+   
+   display: inline-flexbox;
+   width: 32%;
+}
+}
