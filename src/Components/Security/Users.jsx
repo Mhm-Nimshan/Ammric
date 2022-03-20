@@ -42,9 +42,7 @@ const Users = ({ history }) => {
       else if (deleted.error) console.error(deleted.error);
       else {
         setUsers(res.data)
-        console.log('Active Users: ', res.data)
-        setDeleted(deleted.data)
-        console.log('Deleted Users: ', deleted.data)
+        setDeleted(deleted.data)       
       };
     } catch (error) {
       console.error(error);
@@ -63,12 +61,9 @@ const Users = ({ history }) => {
   const deleteItem = onDelete(baseURL, fetchUsers);
 
   const displayData = (data) => {
-    console.log('Data before filtering', data)
+  
     let enableFilter = filters.enabled === "true";
-    // let disablefilter = filters.disabled === "false";
     let filteredUsers = data.filter((user) => user.Active === enableFilter);
-    console.log('Data after filtering', filteredUsers)
-    // let filteredDisabledUsers = data.filter((user) => user.Active=false === disablefilter)
     if (filters.roles)
       filteredUsers = filteredUsers.filter((user) =>
         user["Roles"]?.includes(filters.roles)); 
