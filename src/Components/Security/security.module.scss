@@ -17,6 +17,20 @@
   }
 }
 
+.btAdd {
+  width: 80px;
+  height: 30px;
+  background-color: #00bc61;
+  color:white;
+  border:0;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btAdd:disabled{
+ color: red;
+}
+
 .switch {
   position: relative;
   display: inline-block;
@@ -120,6 +134,8 @@ input:checked + .slider:before {
 .green_add {
   color: #00bc61;
   cursor: pointer;
+
+  
 }
 
 .user_role {
@@ -138,6 +154,7 @@ input:checked + .slider:before {
   select {
     min-width: 200px;
   }
+
   .delete {
     cursor: pointer;
     margin-left: 10px;

@@ -10,6 +10,7 @@ const CryptoJS = require("crypto-js");
 
 const AddUsers = ({ history, location }) => {
   const [user, setUser] = useState({ ...location.state });
+  const [checkValid, setValid] = useState(false)
   if (Object.entries(user).length == 0)
     // New user - User object has no entries
     user["ExpirePassword"] = false;
@@ -30,6 +31,29 @@ const AddUsers = ({ history, location }) => {
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
     setUser((prevUser) => ({ ...prevUser, [target.id]: value }));
+    
+ const email = document.getElementById("Email");
+    if (!email.checkValidity()) {
+      
+      setValid(false)
+    } else {
+      
+      setValid(true)
+    }
+
+     const password = document.getElementById("Password");
+    function CheckPassword(inputtxt) {
+      var decimal = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
+      if (inputtxt.value.match(decimal)) {
+        console.log("validpass");
+        setValid(true)
+      
+      } else {
+        setValid(false)
+       
+      }
+    }
+    CheckPassword(password);
   };
 
   const onOptionChange = (e, key) => {
@@ -49,8 +73,10 @@ const AddUsers = ({ history, location }) => {
     const email = document.getElementById("Email");
     if (!email.checkValidity()) {
       alert("email invalid");
+     
     } else {
       console.log("email valid");
+      
     }
 
     const password = document.getElementById("Password");
@@ -68,7 +94,6 @@ const AddUsers = ({ history, location }) => {
         ).toString();
         user.Password = ciphertext;
         fecthApi(endURL, method, user).catch((err) => callback(err)); //catch, runs if the promise is rejected
-
         console.log("Encrypt Data -");
         console.log(ciphertext);
         console.log(user);
@@ -230,14 +255,18 @@ const AddUsers = ({ history, location }) => {
         </div>
       </div>
       <button
-        className="bt-add"
+      type="submit"
+        className={style.btAdd}
+        disabled={checkValid ? true : false}
         onClick={(e) => {
           onSubmit(e, onError);
-        }}
-      >
-        {" "}
-        Add
-      </button>{" "}
+        }} 
+        >
+          
+       
+          {checkValid ? "Add" : "Invalid"}
+      </button>
+      
       <span className="cancel" onClick={() => history.goBack()}>
         Cancel
       </span>
