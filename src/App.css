@@ -10,6 +10,14 @@
   flex-direction: column;
 }
 
+.ValidMsg{
+  font-size: 10px;
+  margin-bottom: 30px;
+  display: block;
+  color: red;
+  
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -36,6 +44,43 @@
   cursor: pointer;
 }
 
+.activeBtn {
+  background-color: #00bc61;
+  width: 80px;
+  height: 30px;
+  color:white;
+  border:0;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.inactiveBtn {
+  
+    width: 80px;
+  height: 30px;
+  color:white;
+  border:0;
+  border-radius: 5px;
+  
+}
+
+button:disabled,
+button[disabled]{
+  border: 1px solid #999999;
+  background-color: #cccccc;
+  color: #666666;
+}
+
+.btAddDis{
+  width: 80px;
+  height: 30px;
+ color: red;
+  
+  border:0;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
 
 
 .flex-between {
@@ -53,7 +98,7 @@
 
 .input,select{
   min-width: 300px;
-  margin-bottom: 30px;
+  margin-bottom: 20px;
   height: 35px;
 }
 
@@ -62,7 +107,9 @@
 }
 
 .tag {
-  color :grey
+  padding-right: 10%;
+  width: 50%;
+  color :grey;
 }
 
 .cancel {

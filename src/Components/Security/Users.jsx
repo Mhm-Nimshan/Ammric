@@ -43,6 +43,7 @@ const Users = ({ history }) => {
       else {
         setUsers(res.data)
         setDeleted(deleted.data)       
+        console.log(deleted.data)
       };
     } catch (error) {
       console.error(error);
@@ -61,16 +62,12 @@ const Users = ({ history }) => {
   const deleteItem = onDelete(baseURL, fetchUsers);
 
   const displayData = (data) => {
-  
     let enableFilter = filters.enabled === "true";
     let filteredUsers = data.filter((user) => user.Active === enableFilter);
     if (filters.roles)
       filteredUsers = filteredUsers.filter((user) =>
         user["Roles"]?.includes(filters.roles)); 
-    return data;
-    
-
-   
+    return (filteredUsers);
   
   };
 
@@ -107,6 +104,7 @@ const Users = ({ history }) => {
               </option>
             ))}
           </select>
+           
           <select
           className={style.selector}
             value={filters.enabled}
@@ -115,6 +113,7 @@ const Users = ({ history }) => {
             }
           >
             <option value={true}> Enabled</option>
+            <option value={false}> Disabled</option>
           
           </select>
         </span>

@@ -4,6 +4,7 @@ import style from "./security.module.scss";
 import AddOption from "./AddOption";
 import { fecthApi } from "../Common/Table/APIUtil";
 import { toBeInvalid } from "@testing-library/jest-dom/dist/matchers";
+import eyesrc from "./ShowPass.svg" 
 
 const endURL = "/api/users";
 const CryptoJS = require("crypto-js");
@@ -11,13 +12,51 @@ const CryptoJS = require("crypto-js");
 const AddUsers = ({ history, location }) => {
   const [user, setUser] = useState({ ...location.state });
   const [checkValid, setValid] = useState(false)
-  if (Object.entries(user).length == 0)
-    // New user - User object has no entries
-    user["ExpirePassword"] = false;
-  user["WebPortal"] = false;
-  user["EditMyCouncils"] = false;
+  const [checkEmailValid, setEmailValid] = useState(false); 
   const [userRoles, setRoles] = useState([]);
   const [currentRoles, setCurrentRoles] = useState([]);
+  const [buttontext, Setbuttontext] = useState("");
+
+    
+ let IsUpdating = false
+ let newuser = false
+
+
+
+  if (Object.entries(user).length == 0){
+    // New user - User object has no entries
+    
+    Setbuttontext("Add")
+    user["ExpirePassword"] = false;
+    user["WebPortal"] = false;
+    user["EditMyCouncils"] = false; 
+    
+  }  
+
+  else if(Object.entries(user).length >= 3 && Object.entries(user).length <= 14 ){
+    newuser = true
+    IsUpdating = false
+  }
+  
+  else if(Object.entries(user).length >= 15){
+    IsUpdating = true
+    newuser = false
+  }
+  
+ 
+  console.log( {newuser})
+  console.log( {IsUpdating})
+  console.log(Object.entries(user).length)
+
+
+
+// if(Object.entries(user).length > 0){
+//     setUpdating(true)
+    
+//     // console.log('Updating', Object.entries(user).length, user)
+//   }
+
+  
 
   useEffect(() => {
     getRoles();
@@ -27,33 +66,102 @@ const AddUsers = ({ history, location }) => {
     setRoles([...userRoles, { key: uuid(), role: "" }]);
   };
 
+  const RevPass=() =>{
+    let inputpass = document.getElementById("password");
+    if (inputpass.type === "password") {
+    inputpass.type = "text";
+  } else {
+    inputpass.type = "password";
+  }
+  }
+
+  
+   
+  
+  
+
+  //LOGIC FOR ONCHANGE
   const onChange = (e) => {
     const target = e.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
+    const value = target.type === "checkbox" ? target.checked : target.value; //replcate this logic for the show password button
     setUser((prevUser) => ({ ...prevUser, [target.id]: value }));
     
  const email = document.getElementById("Email");
-    if (!email.checkValidity()) {
+
+  
+ 
+   if ((!email.checkValidity()) && (newuser)) {
+      setEmailValid(false)
+      Setbuttontext("Add")
+    } 
+
+    else if (!email.checkValidity() && !newuser){
+      setEmailValid(false)
+      Setbuttontext("Update")
+    
       
-      setValid(false)
-    } else {
-      
-      setValid(true)
     }
+
+    else if (email.checkValidity() && !newuser){
+      setEmailValid(true)
+      Setbuttontext("Update")
+      
+    }
+
+        else if (email.checkValidity() && newuser){
+      setEmailValid(true)
+      Setbuttontext("Add")
+      
+    }
+
+      
+    else {
+      setEmailValid(true)
+      Setbuttontext("Add")
+    }
+
+   
 
      const password = document.getElementById("Password");
     function CheckPassword(inputtxt) {
       var decimal = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
-      if (inputtxt.value.match(decimal)) {
+      if (inputtxt.value.match(decimal) && (newuser)) {
+        console.log({IsUpdating})
+        console.log({newuser})
         console.log("validpass");
         setValid(true)
-      
-      } else {
+        Setbuttontext("WhenNew")
+      } 
+
+      // else if (inputtxt.value.match(decimal) && setEmailValid(false))
+      // {setValid(false)}
+
+    
+
+       else if (inputtxt.value.match(decimal) && !newuser ){
+      Setbuttontext("whenUpdate")
+      console.log("this")
+      setValid(true)
+    }
+
+      else if (!inputtxt.value.match(decimal) && !newuser ){
+      Setbuttontext("whenUpdate")
+      console.log("this")
+      setValid(false)
+    }
+
+    
+  
+      else {
+        Setbuttontext("state3")
         setValid(false)
-       
       }
     }
     CheckPassword(password);
+
+
+    
+
   };
 
   const onOptionChange = (e, key) => {
@@ -97,7 +205,6 @@ const AddUsers = ({ history, location }) => {
         console.log("Encrypt Data -");
         console.log(ciphertext);
         console.log(user);
-
         return true;
       } else {
         alert(
@@ -139,6 +246,7 @@ const AddUsers = ({ history, location }) => {
               value={user["Email"]}
               onChange={onChange}
             />
+            <span className="ValidMsg"> {checkEmailValid ? "" : "Email is not in valid email format"}</span>
           </div>
 
           <div>
@@ -154,6 +262,25 @@ const AddUsers = ({ history, location }) => {
               value={user["Name"]}
               onChange={onChange}
             />
+          </div>
+           <div>
+            <label className="tag" htmlFor="Password">
+              Password *
+            </label>
+            <br></br>
+            <input
+              className="input"
+              type="password"
+              id="Password"
+              onChange={onChange}
+              required
+              value={user["Password"]}
+            />
+            <span className={style.plainBt} onClick={RevPass}><img  className={style.eye} src={eyesrc}/> {RevPass ? "Show Password" : "Hide Password"}</span>
+
+            <span className="ValidMsg"> {checkValid ? "" : "password must contain a minimum of 8 characters with at least one Upper and Lowercase letter, and a digit "}</span>
+
+             
           </div>
 
           <div>
@@ -173,7 +300,7 @@ const AddUsers = ({ history, location }) => {
           <div>
             <label className="tag" htmlFor="WebPortal">
               {" "}
-              {""}Web Portal
+              {""}Web Portal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </label>
             <label className={style.switch}>
               <input
@@ -181,28 +308,16 @@ const AddUsers = ({ history, location }) => {
                 id="WebPortal"
                 onChange={onChange}
                 value={user["WebPortal"]}
-              />
+                >
+                  </input>  
               <span className={style.slider}></span>
             </label>
           </div>
-          <div>
-            <label className="tag" htmlFor="Password">
-              Password *
-            </label>
-            <br></br>
-            <input
-              className="input"
-              type="password"
-              id="Password"
-              onChange={onChange}
-              required
-              value={user["Password"]}
-            />
-          </div>
+         
           <div>
             <label className="tag" htmlFor="ExpirePassword">
               {" "}
-              Expire Password
+            Expire Password&nbsp;
             </label>
             <label className={style.switch}>
               <input
@@ -217,7 +332,7 @@ const AddUsers = ({ history, location }) => {
           <div>
             <label className="tag" htmlFor="Active">
               {" "}
-              Is Enabled{" "}
+              Is Enabled{" "}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </label>
 
             <label className={style.switch}>
@@ -256,15 +371,13 @@ const AddUsers = ({ history, location }) => {
       </div>
       <button
       type="submit"
-        className={style.btAdd}
-        disabled={checkValid ? true : false}
+        className={checkValid ? "activeBtn" : "inactiveBtn"} 
+        disabled={!checkEmailValid}
         onClick={(e) => {
           onSubmit(e, onError);
-        }} 
-        >
-          
-       
-          {checkValid ? "Add" : "Invalid"}
+        }}      
+        >        
+          {buttontext}
       </button>
       
       <span className="cancel" onClick={() => history.goBack()}>
