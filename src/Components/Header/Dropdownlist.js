@@ -14,7 +14,7 @@ const Dropdownlist = (props) => {
   return (
     <div>
       <div className={style.Dropdownlist}>
-        {/* <Dropdownlistitem>
+        <Dropdownlistitem>
           <Link
             className={style.itemlink}
             to={PATH.SETTINGS}
@@ -22,18 +22,18 @@ const Dropdownlist = (props) => {
           >
             Settings
           </Link>
-        </Dropdownlistitem> */}
-        {/* <Dropdownlistitem>
+        </Dropdownlistitem>
+        <Dropdownlistitem>
           <Link className={style.itemlink} to={PATH.PARAMETERS}>
             Parameters
           </Link>
-        </Dropdownlistitem> */}
+        </Dropdownlistitem>
         <Dropdownlistitem>
           <Link className={style.itemlink} to={PATH.SECURITY}>
             Security
           </Link>
         </Dropdownlistitem>
-        {/* <Dropdownlistitem>
+        <Dropdownlistitem>
           <Link className={style.itemlink} to={PATH.PROGRAMS}>
             Programs
           </Link>
@@ -52,7 +52,7 @@ const Dropdownlist = (props) => {
           <Link className={style.itemlink} to={PATH.LOCATIONS}>
             Locations
           </Link>
-        </Dropdownlistitem> */}
+        </Dropdownlistitem>
       </div>
     </div>
   );

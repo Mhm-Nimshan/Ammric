@@ -9,16 +9,24 @@ import Dropdownnlist from "./Dropdownlist";
 
 const Dropdownmain = (props) => {
   const [open, setopen] = useState(false);
-  let blankclick;
-  if ((onclick = null)) {
+  
+  const onMouseEnter = () => {
     setopen(open);
   }
+
+  const onMouseLeave = () => {
+    setopen(!open);
+  }
+
   return (
-    <li>
-      <ul className={style.Droplink} onClick={() => setopen(!open)}>
-        <label>Admin</label>
-      </ul>
+    <li onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+      <Link className={style.itemlink} to={PATH.ADMIN}>
+        <ul className={style.Droplink} onMouseEnter={() => setopen(!open)} onMouseLeave={() => setopen(open)}> 
+          Admin
+        </ul>
+      </Link>
       {open && props.children}
+      {/* {!open && props.children} */}
     </li>
   );
 };
