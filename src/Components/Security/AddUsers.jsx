@@ -4,6 +4,7 @@ import style from "./security.module.scss";
 import AddOption from "./AddOption";
 import { fecthApi } from "../Common/Table/APIUtil";
 import { toBeInvalid } from "@testing-library/jest-dom/dist/matchers";
+import eyesrc from "./ShowPass.svg" 
 
 const endURL = "/api/users";
 const CryptoJS = require("crypto-js");
@@ -13,7 +14,29 @@ const AddUsers = ({ history, location }) => {
   const [checkValid, setValid] = useState(false)
   const [userRoles, setRoles] = useState([]);
   const [currentRoles, setCurrentRoles] = useState([]);
+  const [buttontext, Setbuttontext] = useState("");
 
+  let IsUpdating = false
+  let newuser = false
+
+  // New user - User object has no entries
+  if (Object.entries(user).length == 0) {
+    Setbuttontext("Add")
+    user["ExpirePassword"] = false;
+    user["WebPortal"] = false;
+    user["EditMyCouncils"] = false;
+  }  
+  else if (Object.entries(user).length >= 3 && Object.entries(user).length <= 14 ) {
+    // TODO: This validation agains the lenght must be redefined
+    newuser = true
+    IsUpdating = false
+  }
+  else if (Object.entries(user).length >= 15) {
+    // TODO: This validation agains the lenght must be redefined
+    IsUpdating = true
+    newuser = false
+  }
+  
   // New user - User object has no entries
   if (Object.entries(user).length == 0) {
     user["Active"] = true;
@@ -31,6 +54,15 @@ const AddUsers = ({ history, location }) => {
     setRoles([...userRoles, { key: uuid(), role: "" }]);
   };
 
+  const RevPass=() =>{
+    let inputpass = document.getElementById("password");
+    if (inputpass.type === "password")
+      inputpass.type = "text";
+    else
+      inputpass.type = "password";
+  }
+
+  //LOGIC FOR ONCHANGE
   const onChange = (e) => {
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value;
@@ -82,7 +114,8 @@ const AddUsers = ({ history, location }) => {
       fecthApi(endURL, method, user).catch((err) => callback(err)); //catch, runs if the promise is rejected
       
       return true;
-    } else {
+    }
+    else {
       alert("password must contain at least one number, capital letter, lower case letter, and be a minimum of eight characters long");
       return false;
     }
@@ -109,11 +142,24 @@ const AddUsers = ({ history, location }) => {
             <label className="tag" htmlFor="Username">Username *</label>{" "}
             <br></br>
             <input className="input" type="email" required id="Username" value={user["Username"]} onChange={onChange}/>
+            {/*<span className="ValidMsg"> {checkEmailValid ? "" : "Email is not in valid email format"}</span>*/}
           </div>
           <div>
             <label className="tag" htmlFor="Name">Name</label>{" "}
             <br></br>
             <input className="input" type="text" id="Name" required value={user["Name"]} onChange={onChange}/>
+          </div>
+          <div>
+            <label className="tag" htmlFor="Password">Password *</label>
+            <br></br>
+            <input className="input" type="password" id="Password" onChange={onChange} required value={user["Password"]}/>
+            <span className={style.plainBt} onClick={RevPass}>
+              <img className={style.eye} src={eyesrc}/>
+              {RevPass ? "Show Password" : "Hide Password"}
+            </span>
+            <span className="ValidMsg">
+              {checkValid ? "" : "password must contain a minimum of 8 characters with at least one Upper and Lowercase letter, and a digit "}
+            </span> 
           </div>
           <div>
             <label className="tag" htmlFor="Password">Password *</label>

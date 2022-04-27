@@ -64,7 +64,7 @@ const Users = ({ history }) => {
     if (filters.roles)
       filteredUsers = filteredUsers.filter((user) =>
         user["Roles"]?.includes(filters.roles)); 
-    return data;
+    return (filteredUsers);
   };
 
   return (
@@ -89,6 +89,7 @@ const Users = ({ history }) => {
           </select>
           <select className={style.selector} value={filters.enabled} onChange={(e) => setFilters((prev) => ({ ...prev, enabled: e.target.value }))}>
             <option value={true}> Enabled</option>
+            <option value={false}> Disabled</option>
           </select>
         </span>
         <span onClick={() => setShowDeleted(!showDeleted)} className = {style.plainBt}>  {!showDeleted ? "View" : "Hide"} deleted</span>
