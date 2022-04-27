@@ -26,7 +26,6 @@ const Dropdownmain = (props) => {
         </ul>
       </Link>
       {open && props.children}
-      {/* {!open && props.children} */}
     </li>
   );
 };
