@@ -1,0 +1,16 @@
+.sidebar{
+    background-color: #007283;
+    width: 10%;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.link {
+    color:white;
+    margin: 10px 0;
+    text-align: center;
+    width: 100%;
+    text-decoration: none;
+}
