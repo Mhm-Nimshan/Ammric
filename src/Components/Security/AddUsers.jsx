@@ -5,6 +5,7 @@ import AddOption from "./AddOption";
 import { fecthApi } from "../Common/Table/APIUtil";
 import { toBeInvalid } from "@testing-library/jest-dom/dist/matchers";
 import eyesrc from "./ShowPass.svg" 
+import { Link } from "react-router-dom";
 
 const endURL = "/api/users";
 const CryptoJS = require("crypto-js");
@@ -16,6 +17,7 @@ const AddUsers = ({ history, location }) => {
   const [userRoles, setRoles] = useState([]);
   const [currentRoles, setCurrentRoles] = useState([]);
   const [buttontext, Setbuttontext] = useState("");
+  const [errorMessage, setErrorMessage] = useState('')
 
     
  let IsUpdating = false
@@ -75,13 +77,20 @@ const AddUsers = ({ history, location }) => {
   }
   }
 
+  
+   
+  
+  
+
   //LOGIC FOR ONCHANGE
   const onChange = (e) => {
     const target = e.target;
     const value = target.type === "checkbox" ? target.checked : target.value; //replcate this logic for the show password button
     setUser((prevUser) => ({ ...prevUser, [target.id]: value }));
     
- const email = document.getElementById("Email");
+ const email = document.getElementById("Username");
+
+  
  
    if ((!email.checkValidity()) && (newuser)) {
       setEmailValid(false)
@@ -119,6 +128,7 @@ const AddUsers = ({ history, location }) => {
     function CheckPassword(inputtxt) {
       var decimal = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
       if (inputtxt.value.match(decimal) && (newuser)) {
+        // alert('Please provide a valid Password')
         console.log({IsUpdating})
         console.log({newuser})
         console.log("validpass");
@@ -129,7 +139,8 @@ const AddUsers = ({ history, location }) => {
       // else if (inputtxt.value.match(decimal) && setEmailValid(false))
       // {setValid(false)}
 
-  
+    
+
        else if (inputtxt.value.match(decimal) && !newuser ){
       Setbuttontext("whenUpdate")
       console.log("this")
@@ -142,12 +153,18 @@ const AddUsers = ({ history, location }) => {
       setValid(false)
     }
 
+    
+  
       else {
         Setbuttontext("state3")
         setValid(false)
       }
     }
     CheckPassword(password);
+
+
+    
+
   };
 
   const onOptionChange = (e, key) => {
@@ -164,7 +181,7 @@ const AddUsers = ({ history, location }) => {
       method = "PUT";
     }
 
-    const email = document.getElementById("Email");
+    const email = document.getElementById("Username");
     if (!email.checkValidity()) {
       alert("email invalid");
      
@@ -193,9 +210,7 @@ const AddUsers = ({ history, location }) => {
         console.log(user);
         return true;
       } else {
-        alert(
-          "Password must contain at least one number, capital letter, lower case letter, and be a minimum of eight characters long "
-        );
+        setErrorMessage('')
         return false;
       }
     }
@@ -220,10 +235,7 @@ const AddUsers = ({ history, location }) => {
       <div className={"flex-between " + style.container}>
         <div className={style.form}>
           <div>
-            <label className="tag" htmlFor="Email">
-            <br></br>
-            <br></br>
-            <br></br>
+            <label className="tag" htmlFor="Username">
               Email *
             </label>{" "}
             <br></br>
@@ -231,8 +243,8 @@ const AddUsers = ({ history, location }) => {
               className="input"
               type="email"
               required
-              id="Email"
-              value={user["Email"]}
+              id="Username"
+              value={user["Username"]}
               onChange={onChange}
             />
             <span className="ValidMsg"> {checkEmailValid ? "" : "Email is not in valid email format"}</span>
@@ -266,9 +278,6 @@ const AddUsers = ({ history, location }) => {
               value={user["Password"]}
             />
             <span className={style.plainBt} onClick={RevPass}><img  className={style.eye} src={eyesrc}/> {RevPass ? "Show Password" : "Hide Password"}</span>
-
-            <span className="ValidMsg"> {checkValid ? "" : "password must contain a minimum of 8 characters with at least one Upper and Lowercase letter, and a digit "}</span>
-
              
           </div>
 
@@ -319,7 +328,7 @@ const AddUsers = ({ history, location }) => {
             </label>
           </div>
           <div>
-            <label className="tag" htmlFor="Active">
+            <label className="tag" htmlFor="Enabled">
               {" "}
               Is Enabled{" "}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </label>
@@ -327,15 +336,15 @@ const AddUsers = ({ history, location }) => {
             <label className={style.switch}>
               <input
                 type="checkbox"
-                id="Active"
-                checked={user["Active"]}
+                id="Enabled"
+                checked={user["Enabled"]}
                 onChange={onChange}
               />
               <span className={style.slider}></span>
             </label>
           </div>
         </div>
-        <div className={style.user_role}>
+        {/* <div className={style.user_role}>
           <p className="tag" style={{ marginBottom: "20px" }}>
             {" "}
             User Roles
@@ -356,22 +365,25 @@ const AddUsers = ({ history, location }) => {
             {" "}
             Add User Role
           </span>
-        </div>
+        </div> */}
       </div>
+      <div>
       <button
-      type="submit"
+        to={{pathname: '/security/Users'}} 
+        type="submit"
         className={checkValid ? "activeBtn" : "inactiveBtn"} 
         disabled={!checkEmailValid}
         onClick={(e) => {
           onSubmit(e, onError);
-        }}      
+        }}
+             
         >        
           {buttontext}
       </button>
-      
       <span className="cancel" onClick={() => history.goBack()}>
         Cancel
       </span>
+      </div>
     </form>
   );
 };

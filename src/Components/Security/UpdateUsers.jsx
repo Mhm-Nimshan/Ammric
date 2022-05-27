@@ -38,9 +38,6 @@ useEffect(() => {
           <Button type='update' onClick={sendDataToApi}>Update</Button>
         </Link>
       </Form>
-      <Form>
-      </Form>
     </div>
-    
   )
 }

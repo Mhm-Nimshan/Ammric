@@ -117,10 +117,8 @@ input:checked + .slider:before {
   align-self: stretch;
   padding: 10px 20px 10px 0px;
   overflow: auto;
-  
+  margin-left: 200px;
 
-  
-  
 }
 
 .container {
@@ -162,6 +160,7 @@ input:checked + .slider:before {
   float: inline-end;
   font-size: small;
   margin-bottom: 1px;
+  margin-left: 5rem;
 }
 
 .green_add {
@@ -199,9 +198,21 @@ input:checked + .slider:before {
  width: 47%;
 
 
- .selector{
+ .selector1{
    
-   display: inline-flexbox;
+   display: inline-flex;
    width: 32%;
 }
+.selector2{
+   
+  display: inline-flex;
+  width: 32%;
+  margin-left: 26px;
+}
+}
+
+.input {
+  min-width: 300px;
+  margin-bottom: 2px;
+  height: 35px;
 }

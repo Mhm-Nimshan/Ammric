@@ -2,39 +2,26 @@ import React, { useState, useEffect } from "react";
 import style from "./security.module.scss";
 import Table from "../Common/Table/Table";
 import { onDelete, onEdit } from "../Common/Table/APIUtil.js";
-import axios from 'axios';
 
 const baseURL = "/api/users";
-const editURl = "/security/users/edit";
+const editURl = "/Security/Users/Edit";
+
 
 const Users = ({ history }) => {
   const [users, setUsers] = useState([]);
-  const [inactiveUsers, setDeleted] = useState([])
+  const [user, setUser] = useState({});
+  const [inactiveUsers, setDeleted] = useState([]);
   const [hideAudit, setHideAudit] = useState(true);
   const [filters, setFilters] = useState({ roles: "", enabled: "true" });
-  const [roles, setRoles] = useState(["", "admin", "amrric", "vet"]);
+  
+  const [roles, setRoles] = useState(["", "admin", "amrric", "vet", "amw"]);
   const [showDeleted, setShowDeleted] = useState(false);
 
-  let cols = [
-    "Name",
-    "Email",
-    "Roles",
-    "Active",
-    "WebPortal",
-    "EditMyCouncils",
-  ];
-  let auditCols = [
-    "Name",
-    "Last Mobile Log in",
-    "Last Mobile sync",
-    "Last Portal log in",
-  ];
-
-  
-  const axios = async () => {
+  const fetchUsers = async () => {
     try {
       let res = await fetch(`${baseURL}/all`);
-      let deleted = await fetch(`${baseURL}/all/?active=0`)
+
+      let deleted = await fetch(`${baseURL}/all/?active=0`);
       res = await res.json();
       deleted = await deleted.json();
       console.time("Finished in");
@@ -42,37 +29,62 @@ const Users = ({ history }) => {
       if (res.error) console.error(res.error);
       else if (deleted.error) console.error(deleted.error);
       else {
-        setUsers(res.data)
-        setDeleted(deleted.data)       
-        console.log(deleted.data)
-      };
+        //console.log(res.data);
+        setUsers(res.data);
+        setDeleted(deleted.data);
+       // console.log(deleted.data);
+      }
     } catch (error) {
       console.error(error);
     }
-
   };
-
 
   useEffect(() => {
-    axios();
-    
+    fetchUsers();
   }, []);
 
+  let cols = [
+    "Name",
+    "Username",
+    "RoleCodes",
+    "Enabled",
+    "WebPortal",
+    "Active",
+    "EditMyCouncils",
+  ];
+
+  let auditCols = [
+    "Name",
+    "LastMobileLogIn",
+    "LastMobileSync",
+    "LastPortalLogIn",
+  ];
 
   const editItem = onEdit(history, editURl);
-  const deleteItem = onDelete(baseURL, axios);
+  const deleteItem = onDelete(baseURL, fetchUsers);
+
+  // const dipalyAllData = (data) => {
+  //   let allData = users;
+  // }
 
   const displayData = (data) => {
-    let enableFilter = filters.enabled === "true";
-    let filteredUsers = data.filter((user) => user.Active === enableFilter);
+    let filteredUsers;
+    if (filters.enabled === "All") {
+      filteredUsers=data;
+    }
+    else{
+      let enableFilter = filters.enabled === "true";
+      filteredUsers = data.filter((item) => item.Enabled === enableFilter);
+    }
+    
+    
+   // let filteredUsers = data.filter((item) => item.Enabled);
     if (filters.roles)
-      filteredUsers = filteredUsers.filter((user) =>
-        user["Roles"]?.includes(filters.roles)); 
-    return (filteredUsers);
-  
+      filteredUsers = filteredUsers.filter((item) =>
+        item["Roles"]?.includes(filters.roles)
+      );
+    return filteredUsers;
   };
-
-
   return (
     <div>
       <div className="flex-between">
@@ -87,12 +99,12 @@ const Users = ({ history }) => {
           className={style.plainBt}
           onClick={() => setHideAudit(!hideAudit)}
         >
-          {/* {" "}
-          {hideAudit ? "View" : "Hide"} Audit Data */}
+          {" "}
+          {hideAudit ? "View" : "Hide"} Audit Data
         </span>
         <span className={style.select}>
-          <select 
-          className={style.selector}
+          <select
+            className={style.selector1}
             value={filters.roles}
             onChange={(e) =>
               setFilters((prev) => ({ ...prev, roles: e.target.value }))
@@ -105,29 +117,32 @@ const Users = ({ history }) => {
               </option>
             ))}
           </select>
-           
           <select
-          className={style.selector}
+            className={style.selector2}
             value={filters.enabled}
             onChange={(e) =>
               setFilters((prev) => ({ ...prev, enabled: e.target.value }))
             }
           >
+            <option value={"All"}> </option>
             <option value={true}> Enabled</option>
             <option value={false}> Disabled</option>
-          
           </select>
         </span>
-        <span onClick={() => setShowDeleted(!showDeleted)} className = {style.plainBt}>  {!showDeleted ? "View" : "Hide"} deleted</span>
+        <span
+          onClick={() => setShowDeleted(!showDeleted)}
+          className={style.plainBt}
+        >
+          {" "}
+          {!showDeleted ? "View" : "Hide"} deleted
+        </span>
       </div>
-      <Table
-        onEdit={editItem}
-        onDelete={deleteItem}
-        cols={hideAudit ? cols : auditCols}
-        data={ !showDeleted ? displayData(users) : displayData(users).concat(inactiveUsers)} 
-      
+      <Table onEdit={editItem} onDelete={deleteItem} cols={hideAudit ? cols : auditCols} data={
+          !showDeleted
+            ? displayData(users)
+            : displayData(users).concat(inactiveUsers)
+        }
         pk={"Username"}
-        
       />
     </div>
   );
