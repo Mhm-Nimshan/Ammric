@@ -262,6 +262,7 @@ const AddUsers = ({ history, location }) => {
               required
               value={user["Name"]}
               onChange={onChange}
+              
             />
           </div>
            <div>
