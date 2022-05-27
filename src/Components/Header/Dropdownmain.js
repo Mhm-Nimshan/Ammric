@@ -21,11 +21,12 @@ const Dropdownmain = (props) => {
   return (
     <li onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
       <Link className={style.itemlink} to={PATH.ADMIN}>
-        <ul className={style.Droplink} onMouseEnter={() => setopen(!open)} onMouseLeave={() => setopen(open)}> 
+        <ul className={style.Droplink} onMouseEnter={() => setopen(!open)} onMouseLeave={() => setopen(open)}>  
           Admin
         </ul>
       </Link>
       {open && props.children}
+      {/* {!open && props.children} */}
     </li>
   );
 };

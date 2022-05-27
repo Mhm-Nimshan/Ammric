@@ -6,7 +6,9 @@ import PATH from "../../Constant"
 const Navbar = (props) => {
 
     <nav className={style.nav}>
-        <ul className={style.navbarnav}>{props.children}</ul>
+        <ul className={style.navbarnav}>
+            {props.children}
+        </ul>
     </nav>
     
 }

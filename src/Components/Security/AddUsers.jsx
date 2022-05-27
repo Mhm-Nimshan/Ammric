@@ -5,6 +5,7 @@ import AddOption from "./AddOption";
 import { fecthApi } from "../Common/Table/APIUtil";
 import { toBeInvalid } from "@testing-library/jest-dom/dist/matchers";
 import eyesrc from "./ShowPass.svg" 
+import { Link } from "react-router-dom";
 
 const endURL = "/api/users";
 const CryptoJS = require("crypto-js");
@@ -12,39 +13,52 @@ const CryptoJS = require("crypto-js");
 const AddUsers = ({ history, location }) => {
   const [user, setUser] = useState({ ...location.state });
   const [checkValid, setValid] = useState(false)
+  const [checkEmailValid, setEmailValid] = useState(false); 
   const [userRoles, setRoles] = useState([]);
   const [currentRoles, setCurrentRoles] = useState([]);
   const [buttontext, Setbuttontext] = useState("");
+  const [errorMessage, setErrorMessage] = useState('')
 
-  let IsUpdating = false
-  let newuser = false
+    
+ let IsUpdating = false
+ let newuser = false
 
-  // New user - User object has no entries
-  if (Object.entries(user).length == 0) {
+
+
+  if (Object.entries(user).length == 0){
+    // New user - User object has no entries
+    
     Setbuttontext("Add")
     user["ExpirePassword"] = false;
     user["WebPortal"] = false;
-    user["EditMyCouncils"] = false;
+    user["EditMyCouncils"] = false; 
+    
   }  
-  else if (Object.entries(user).length >= 3 && Object.entries(user).length <= 14 ) {
-    // TODO: This validation agains the lenght must be redefined
+
+  else if(Object.entries(user).length >= 3 && Object.entries(user).length <= 14 ){
     newuser = true
     IsUpdating = false
   }
-  else if (Object.entries(user).length >= 15) {
-    // TODO: This validation agains the lenght must be redefined
+  
+  else if(Object.entries(user).length >= 15){
     IsUpdating = true
     newuser = false
   }
   
-  // New user - User object has no entries
-  if (Object.entries(user).length == 0) {
-    user["Active"] = true;
-    user["ExpirePassword"] = false;
-    user["Enabled"] = false;
-    user["WebPortal"] = false;
-    user["EditMyCouncils"] = false;
-  }
+ 
+  console.log( {newuser})
+  console.log( {IsUpdating})
+  console.log(Object.entries(user).length)
+
+
+
+// if(Object.entries(user).length > 0){
+//     setUpdating(true)
+    
+//     // console.log('Updating', Object.entries(user).length, user)
+//   }
+
+  
 
   useEffect(() => {
     getRoles();
@@ -56,28 +70,102 @@ const AddUsers = ({ history, location }) => {
 
   const RevPass=() =>{
     let inputpass = document.getElementById("password");
-    if (inputpass.type === "password")
-      inputpass.type = "text";
-    else
-      inputpass.type = "password";
+    if (inputpass.type === "password") {
+    inputpass.type = "text";
+  } else {
+    inputpass.type = "password";
   }
+  }
+
+  
+   
+  
+  
 
   //LOGIC FOR ONCHANGE
   const onChange = (e) => {
     const target = e.target;
-    const value = target.type === "checkbox" ? target.checked : target.value;
-    const username = document.getElementById("Username");
-    const password = document.getElementById("Password");
-    
+    const value = target.type === "checkbox" ? target.checked : target.value; //replcate this logic for the show password button
     setUser((prevUser) => ({ ...prevUser, [target.id]: value }));
-    setValid(username.checkValidity())
-    setValid(CheckPassword(password))
-  };
+    
+ const email = document.getElementById("Username");
 
-  function CheckPassword(pwd) {
-    let pwdRegEx = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
-    return pwd.value.match(pwdRegEx)
-  }
+  
+ 
+   if ((!email.checkValidity()) && (newuser)) {
+      setEmailValid(false)
+      Setbuttontext("Add")
+    } 
+
+    else if (!email.checkValidity() && !newuser){
+      setEmailValid(false)
+      Setbuttontext("Update")
+    
+      
+    }
+
+    else if (email.checkValidity() && !newuser){
+      setEmailValid(true)
+      Setbuttontext("Update")
+      
+    }
+
+        else if (email.checkValidity() && newuser){
+      setEmailValid(true)
+      Setbuttontext("Add")
+      
+    }
+
+      
+    else {
+      setEmailValid(true)
+      Setbuttontext("Add")
+    }
+
+   
+
+     const password = document.getElementById("Password");
+    function CheckPassword(inputtxt) {
+      var decimal = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
+      if (inputtxt.value.match(decimal) && (newuser)) {
+        // alert('Please provide a valid Password')
+        console.log({IsUpdating})
+        console.log({newuser})
+        console.log("validpass");
+        setValid(true)
+        Setbuttontext("WhenNew")
+      } 
+
+      // else if (inputtxt.value.match(decimal) && setEmailValid(false))
+      // {setValid(false)}
+
+    
+
+       else if (inputtxt.value.match(decimal) && !newuser ){
+      Setbuttontext("whenUpdate")
+      console.log("this")
+      setValid(true)
+    }
+
+      else if (!inputtxt.value.match(decimal) && !newuser ){
+      Setbuttontext("whenUpdate")
+      console.log("this")
+      setValid(false)
+    }
+
+    
+  
+      else {
+        Setbuttontext("state3")
+        setValid(false)
+      }
+    }
+    CheckPassword(password);
+
+
+    
+
+  };
 
   const onOptionChange = (e, key) => {
     let tempRoles = [...userRoles].map((role) =>
@@ -89,41 +177,49 @@ const AddUsers = ({ history, location }) => {
   const onSubmit = (e, callback) => {
     e.preventDefault();
     let method = "POST";
-    if (location.state)
-    method = "PUT";
-    
-    const username = document.getElementById("Username");
-    if (!username.checkValidity())
-      alert("Username invalid");
+    if (location.state) {
+      method = "PUT";
+    }
+
+    const email = document.getElementById("Username");
+    if (!email.checkValidity()) {
+      alert("email invalid");
+     
+    } else {
+      console.log("email valid");
+      
+    }
 
     const password = document.getElementById("Password");
-    console.log(user);
+    function CheckPassword(inputtxt) {
+      var decimal = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/;
+      if (inputtxt.value.match(decimal)) {
+        console.log("validpass");
 
-    if (CheckPassword(password)) {
-      const newholderpass = {};
-      password.password = newholderpass;
+        const newholderpass = {};
+        password.password = newholderpass;
 
-      var ciphertext = CryptoJS.AES.encrypt(
-        JSON.stringify(newholderpass),
-        "eEEAJEVHu3JMMX0Ilh9Z"  // Private Key  // TODO: Save it somewhere else.
-      ).toString();
-      user.Password = ciphertext;
-      console.log(`Encrypted Pwd: ${ciphertext} - User.Pwd: ${user.Password}`);
-
-      // Creating the user
-      fecthApi(endURL, method, user).catch((err) => callback(err)); //catch, runs if the promise is rejected
-      
-      return true;
+        var ciphertext = CryptoJS.AES.encrypt(
+          JSON.stringify(newholderpass),
+          "eEEAJEVHu3JMMX0Ilh9Z"
+        ).toString();
+        user.Password = ciphertext;
+        fecthApi(endURL, method, user).catch((err) => callback(err)); //catch, runs if the promise is rejected
+        console.log("Encrypt Data -");
+        console.log(ciphertext);
+        console.log(user);
+        return true;
+      } else {
+        setErrorMessage('')
+        return false;
+      }
     }
-    else {
-      alert("password must contain at least one number, capital letter, lower case letter, and be a minimum of eight characters long");
-      return false;
-    }
+    CheckPassword(password);
   };
 
   const onError = (err) => {
     console.error(err);
-    alert(err); //creates the browser error if there is one to display
+    alert(err+ "Bijja"); //creates the browser error if there is one to display
   };
 
   const getRoles = () => {
@@ -139,64 +235,120 @@ const AddUsers = ({ history, location }) => {
       <div className={"flex-between " + style.container}>
         <div className={style.form}>
           <div>
-            <label className="tag" htmlFor="Username">Username *</label>{" "}
+            <label className="tag" htmlFor="Username">
+              Email *
+            </label>{" "}
             <br></br>
-            <input className="input" type="email" required id="Username" value={user["Username"]} onChange={onChange}/>
-            {/*<span className="ValidMsg"> {checkEmailValid ? "" : "Email is not in valid email format"}</span>*/}
+            <input
+              className="input"
+              type="email"
+              required
+              id="Username"
+              value={user["Username"]}
+              onChange={onChange}
+            />
+            <span className="ValidMsg"> {checkEmailValid ? "" : "Email is not in valid email format"}</span>
           </div>
+
           <div>
-            <label className="tag" htmlFor="Name">Name</label>{" "}
+            <label className="tag" htmlFor="Name">
+              Name
+            </label>{" "}
             <br></br>
-            <input className="input" type="text" id="Name" required value={user["Name"]} onChange={onChange}/>
+            <input
+              className="input"
+              type="text"
+              id="Name"
+              required
+              value={user["Name"]}
+              onChange={onChange}
+            />
           </div>
-          <div>
-            <label className="tag" htmlFor="Password">Password *</label>
+           <div>
+            <label className="tag" htmlFor="Password">
+              Password *
+            </label>
             <br></br>
-            <input className="input" type="password" id="Password" onChange={onChange} required value={user["Password"]}/>
-            <span className={style.plainBt} onClick={RevPass}>
-              <img className={style.eye} src={eyesrc}/>
-              {RevPass ? "Show Password" : "Hide Password"}
-            </span>
-            <span className="ValidMsg">
-              {checkValid ? "" : "password must contain a minimum of 8 characters with at least one Upper and Lowercase letter, and a digit "}
-            </span> 
+            <input
+              className="input"
+              type="password"
+              id="Password"
+              onChange={onChange}
+              required
+              value={user["Password"]}
+            />
+            <span className={style.plainBt} onClick={RevPass}><img  className={style.eye} src={eyesrc}/> {RevPass ? "Show Password" : "Hide Password"}</span>
+             
           </div>
+
           <div>
-            <label className="tag" htmlFor="Password">Password *</label>
-            <br></br>
-            <input className="input" type="password" id="Password" onChange={onChange} required value={user["Password"]}/>
-          </div>
-          <div>
-            <label className="tag" htmlFor="ExpirePassword"> {" "}Expire Password</label>
+            <label className="tag" htmlFor="MyCouncils">
+              Edit My Councils
+            </label>
             <label className={style.switch}>
-              <input type="checkbox" id="ExpirePassword" checked={user["ExpirePassword"]} onChange={onChange}/>
+              <input
+                type="checkbox"
+                id="EditMyCouncils"
+                onChange={onChange}
+                value={user["EditMyCouncils"]}
+              />
               <span className={style.slider}></span>
             </label>
           </div>
           <div>
-            <label className="tag" htmlFor="Enabled">{" "}Is Enabled{" "}</label>
+            <label className="tag" htmlFor="WebPortal">
+              {" "}
+              {""}Web Portal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            </label>
             <label className={style.switch}>
-              <input type="checkbox" id="Enabled" onChange={onChange} value={user["Enabled"]}/>
+              <input
+                type="checkbox"
+                id="WebPortal"
+                onChange={onChange}
+                value={user["WebPortal"]}
+                >
+                  </input>  
+              <span className={style.slider}></span>
+            </label>
+          </div>
+         
+          <div>
+            <label className="tag" htmlFor="ExpirePassword">
+              {" "}
+            Expire Password&nbsp;
+            </label>
+            <label className={style.switch}>
+              <input
+                type="checkbox"
+                id="ExpirePassword"
+                checked={user["ExpirePassword"]}
+                onChange={onChange}
+              />
               <span className={style.slider}></span>
             </label>
           </div>
           <div>
-            <label className="tag" htmlFor="MyCouncils">Edit My Councils</label>
-            <label className={style.switch}>
-              <input type="checkbox" id="EditMyCouncils" onChange={onChange} value={user["EditMyCouncils"]}/>
-              <span className={style.slider}></span>
+            <label className="tag" htmlFor="Enabled">
+              {" "}
+              Is Enabled{" "}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             </label>
-          </div>
-          <div>
-            <label className="tag" htmlFor="WebPortal">{" "}{""}Web Portal</label>
+
             <label className={style.switch}>
-              <input type="checkbox" id="WebPortal" onChange={onChange} value={user["WebPortal"]}/>
+              <input
+                type="checkbox"
+                id="Enabled"
+                checked={user["Enabled"]}
+                onChange={onChange}
+              />
               <span className={style.slider}></span>
             </label>
           </div>
         </div>
-        <div className={style.user_role}>
-          <p className="tag" style={{ marginBottom: "20px" }}>{" "}User Roles</p>
+        {/* <div className={style.user_role}>
+          <p className="tag" style={{ marginBottom: "20px" }}>
+            {" "}
+            User Roles
+          </p>
           {userRoles &&
             userRoles.map((role) => (
               <AddOption
@@ -209,11 +361,29 @@ const AddUsers = ({ history, location }) => {
                 }
               />
             ))}
-          <span className={style.green_add} onClick={onAddRole}>{" "}Add User Role</span>
-        </div>
+          <span className={style.green_add} onClick={onAddRole}>
+            {" "}
+            Add User Role
+          </span>
+        </div> */}
       </div>
-      <button type="submit" onClick={(e) => { onSubmit(e, onError); }}>Save</button>
-      <span className="cancel" onClick={() => history.goBack()}>Cancel</span>
+      <div>
+      <button
+        to={{pathname: '/security/Users'}} 
+        type="submit"
+        className={checkValid ? "activeBtn" : "inactiveBtn"} 
+        disabled={!checkEmailValid}
+        onClick={(e) => {
+          onSubmit(e, onError);
+        }}
+             
+        >        
+          {buttontext}
+      </button>
+      <span className="cancel" onClick={() => history.goBack()}>
+        Cancel
+      </span>
+      </div>
     </form>
   );
 };

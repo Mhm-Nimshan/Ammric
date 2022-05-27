@@ -12,7 +12,7 @@ import LocationRoute from "../Locations/LocationRoute";
 import SecurityRoute from "../Security/SecurityRoute";
 
 const Admin = () => {
-  return <div></div>;
+  return <div>This is the Admin Page</div>;
 };
 
 export default Admin;

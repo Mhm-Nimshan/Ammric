@@ -1,22 +1,22 @@
 import React, { useEffect, useState } from "react";
-// import AddRoles from "./Security/AddRoles";
+import { withRouter } from "react-router-dom";
 import Table from "../Common/Table/Table";
 import { onDelete, onEdit } from "../Common/Table/APIUtil";
 
-const editURl = "/security/roles/edit";
+const editURl = "/problems/roles/edit";
 const deleteURL = "/api/roles";
-const Roles = ({ history }) => {
-  const [Roles, setRoles] = useState([]);
-  let cols = ["RoleCode", "RoleName", "Description", "System", "UserCount"];
+const Problems = ({ history }) => {
+  const [Problems, setProblems] = useState([]);
+  let cols = ["Code", "Description", "Sort", "Species", "Multi-tag"];
 
-  const fetchRoles = async () => {
+  const fetchProblems = async () => {
     try {
       let res = await fetch("/api/roles/all");
       res = await res.json();
       if (res.error) {
         console.log(res.error);
       } else {
-        setRoles(res.data);
+        setProblems(res.data);
       }
     } catch (error) {
       console.log(error);
@@ -24,32 +24,26 @@ const Roles = ({ history }) => {
   };
 
   useEffect(() => {
-    fetchRoles();
+    fetchProblems();
   }, []);
 
-  const deleteItem = onDelete(deleteURL, fetchRoles);
+  const deleteItem = onDelete(deleteURL, fetchProblems);
   const editItem = onEdit(history, editURl);
 
-  return (
-    <div>
+  return <div>
+     <div>
       <div className="flex-between">
+        
         <button
           className="bt-add"
-          onClick={() => history.push("/security/roles/add")}
+          onClick={() =>  ("/security/roles/add")}
         >
           Add
         </button>
         <span> No deleted </span>
       </div>
-      <Table
-        onEdit={editItem}
-        cols={cols}
-        data={Roles}
-        onDelete={deleteItem}
-        pk={"RoleCode"}
-      />
     </div>
-  );
+  </div>;
 };
 
-export default Roles;
+export default Problems;
