@@ -12,26 +12,23 @@ const Users = ({ history }) => {
   const [inactiveUsers, setDeleted] = useState([]);
   const [hideAudit, setHideAudit] = useState(true);
   const [filters, setFilters] = useState({ roles: "", enabled: "true" });
-
   const [roles, setRoles] = useState(["", "admin", "amrric", "vet", "amw"]);
   const [showDeleted, setShowDeleted] = useState(false);
 
   const fetchUsers = async () => {
     try {
       let res = await fetch(`${baseURL}/all`);
-
       let deleted = await fetch(`${baseURL}/all/?active=0`);
       res = await res.json();
       deleted = await deleted.json();
+      // console.log(deleted)
       console.time("Finished in");
 
       if (res.error) console.error(res.error);
       else if (deleted.error) console.error(deleted.error);
       else {
-        //console.log(res.data);
         setUsers(res.data);
         setDeleted(deleted.data);
-        // console.log(deleted.data);
       }
     } catch (error) {
       console.error(error);
@@ -48,7 +45,6 @@ const Users = ({ history }) => {
     "RoleCodes",
     "Enabled",
     "WebPortal",
-    "Active",
     "EditMyCouncils",
   ];
 
@@ -70,37 +66,56 @@ const Users = ({ history }) => {
     let filteredUsers;
     let activeFilter = true;
 
+    //check whether the All button is clicked
     if (filters.enabled === "All") {
-      console.log("All");
-      filteredUsers = data.filter((item) => item.Active === activeFilter);
+      /*  checking whether the View deleted Button is pressed.if the view delete button is
+     pressed, copy every Inactive users to the filteredUsers Variable. else copy all the Active users to the 
+     filtered users variable */
+      if (showDeleted) {
+        filteredUsers = data.filter((item) => item.Active === false);
+      } else if (!showDeleted) {
+        filteredUsers = data.filter((item) => item.Active === activeFilter);
+      }
+
+      //check whether the Enable button is clicked
     } else if (filters.enabled === "true") {
-      console.log("Enabled");
-      let enableFilter = filters.enabled === "true";
-      filteredUsers = data.filter(
-        (item) =>
-          item.Active === activeFilter &&
-          data.filter((item) => item.Enabled === enableFilter)
-      );
+      /*  checking whether the View deleted Button is pressed.if the view delete button is
+     pressed, copy every Inactive users to the filteredUsers Variable. else copy all the Active & Enabled users to the 
+     filtered users variable */
+      if (showDeleted) {
+        filteredUsers = data.filter((item) => item.Active === false);
+      } else if (!showDeleted) {
+        let enableFilter = filters.enabled === "true";
+        filteredUsers = data.filter(
+          (item) =>
+            item.Active === activeFilter &&
+            data.filter((item) => item.Enabled === enableFilter)
+        );
+      }
+      //check whether the Disabled button is clicked
     } else if (filters.enabled === "false") {
-      console.log("Disabled");
-      
-      let disableFilter = filters.enabled === "false";
-      
-      filteredUsers = data.filter(
-        (item) =>
-          item.Active === activeFilter &&
-          item.Enabled === !disableFilter
-      );
-     // console.log(data);
+      /*  checking whether the View deleted Button is pressed.if the view delete button is
+     pressed, copy every Inactive users to the filteredUsers Variable. else copy all the Active & Disabled users to the 
+     filtered users variable */
+      if (showDeleted) {
+        filteredUsers = data.filter((item) => item.Active === false);
+      } else if (!showDeleted) {
+        let disableFilter = filters.enabled === "false";
+
+        filteredUsers = data.filter(
+          (item) =>
+            item.Active === activeFilter && item.Enabled === !disableFilter
+        );
+      }
     }
 
-    // let filteredUsers = data.filter((item) => item.Enabled);
     if (filters.roles)
       filteredUsers = filteredUsers.filter((item) =>
-        item["Roles"]?.includes(filters.roles)
+        item["RoleCodes"]?.includes(filters.roles)
       );
     return filteredUsers;
   };
+
   return (
     <div>
       <div className="flex-between">
@@ -157,11 +172,7 @@ const Users = ({ history }) => {
         onEdit={editItem}
         onDelete={deleteItem}
         cols={hideAudit ? cols : auditCols}
-        data={
-          !showDeleted
-            ? displayData(users)
-            : displayData(users).concat(inactiveUsers)
-        }
+        data={!showDeleted ? displayData(users) : displayData(inactiveUsers)}
         pk={"Username"}
       />
     </div>
